@@ -1,0 +1,25 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>MY VENUES</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <form action="{{ path('payment_details', {'orderNumber': orderNumber } ) }}" method="post">
+                    {{ form_widget(form) }}
+                    <input type="submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% endblock %}

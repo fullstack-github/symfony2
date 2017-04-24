@@ -1,0 +1,29 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner about-dusk-banner">
+            <div class="container">
+                <div class="about-dusk">
+                    <div class="logodiv"><img src="{{ asset('bundles/duskuser/images/puskmusic-img.png') }}" width="151" height="198" alt=""></div>
+                    <div class="contdiv">
+                        <h1>{{ record.pagename }}</h1>
+                        <p>{{ record.pagecontent | htmlentity }}</p>
+                        
+                    </div>
+                    {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block orangestrip %}
+        {{ parent() }}
+    {% endblock orangestrip %}
+
+    {% block instantpreview %}
+        {{ parent() }}
+    {% endblock instantpreview %}
+
+    {% block whoisdusk %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

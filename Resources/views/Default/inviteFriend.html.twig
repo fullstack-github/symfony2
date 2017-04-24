@@ -1,0 +1,90 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/duskuser/css/accordion.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>Invite A Friend</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="invitefriend-text">
+                    <h1>Refer &amp; Signup a friend </h1>
+                    <div id='invite_msg' style='color:white; font-size: 12px;'></div>
+                    <form action="{{ path('dusk_save_invite_friend') }}" {{ form_enctype(form) }} method="POST" id="inviteForm">
+                    <div class="input">
+                      {{ form_widget(form.email) }}{{ form_errors(form.email)}}
+                    </div>
+                    <h1>to get 10% off your subscription</h1>
+                    <p>
+                      <input type="submit" value="Submit" />
+                    </p>
+                    {{ form_rest(form) }}
+                    </form>
+                    <p>*PLEASE NOTE: Your friends email will need to match when they signup so we can track your referral.</p>
+                </div>
+            </div>
+        </div>
+
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends--> 
+        {{ render(controller('DuskUserBundle:Album:index')) }}
+        {% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %}
+    </div>
+    
+</div>
+    
+        
+    
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.ui.core.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.ui.widget.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.ui.accordion.min.js') }}"></script>
+    <script>
+	$(function() {
+		$( "#accordion" ).accordion({
+			collapsible: true
+		});
+	});
+        $(document).ready(function() {
+
+        $('#inviteForm').submit(function() {
+            var dataString = $('#inviteForm').serialize();
+            var postUrl = $('#inviteForm').attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: postUrl,
+                data: dataString,
+                beforeSend: function() {
+                    $('#invite_msg').html('Please wait...');
+                },
+                success: function(response) {
+                    $('#invite_msg').html(response['msg']);
+                    $('#dusk_invite_friend_email').val('');
+                }
+            });
+            return false;
+        });
+    });
+    </script>
+{% endblock %}

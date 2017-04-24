@@ -1,0 +1,117 @@
+<section class="greybg">
+    <div class="container">
+        <h1 class="title">Instantly Preview our some of our Music Styling</h1>
+        <div class="instantly-carousel">
+            <ul id="foo2">
+                
+                {% for key, record in albums %}
+                    <li>
+                        {% set image = 'uploads/album/'~record.image %}
+                        <img src="{{ image | imagine_filter('thumb_248x213') }}" alt=""><span>Restaurant - Dining</span>
+                        <div class="play-music"> <img src="{{ asset('bundles/duskuser/images/pluse-icon-1.png') }}" width="26" height="26" class="pluse-icon" alt="">
+                            <h1>Cafe 2 Mix Text 2nd Line</h1>
+                            <p>Enhance your Dining environment with text here text here text here text here text here text here text text here text here.</p>
+                            <div id="jquery_jplayer"></div>
+
+                            <div class="music-control">
+                                <div class="control-icons">
+                            
+                                    <div id="jp_container" class="jp-audio">
+                                        <div class="jp-type-single">
+                                            <div class="jp-gui jp-interface">
+                                                <ul class="jp-control">
+                                                    <span><a href="javascript:void(0);" tabindex="1" class="jp-pause"><img src="{{ asset('bundles/duskuser/images/pause-icon.png') }}" alt="" width="38" height="38"></a></span>
+                                                    <span><a href="javascript:void(0);" onclick="playHomeAlbum({{ record.id }})" tabindex="1" class="jp-play"><img src="{{ asset('bundles/duskuser/images/play-icon.png') }}" alt="" width="38" height="38" class="img"></a></span>
+                                                    <span><a href="javascript:void(0);" onclick="stopHomeAlbum({{ record.id }})" tabindex="1" class="jp-stop"><img src="{{ asset('bundles/duskuser/images/stop-icon.png') }}" alt="" width="38" height="38" class="img"></a></span>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="cont-text">Play Sample<br />2m 14sec</span>
+                                <span class="sound-icon"><a href="#"><img src="{{ asset('bundles/duskuser/images/sound-icon.png') }}" width="16" height="16" alt=""></a></span>
+                            </div>
+                        </div>
+                    </li>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#jquery_jplayer_{{ key }}").jPlayer({
+                                ready: function () {
+                                   $(this).jPlayer("setMedia", {
+{#                                       {% for track in record.tracks %}#}
+{#                                   mp3: "http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3"#}
+{#                                        mp3: '{{ asset('uploads/track/audio/'~track.audio) }}',#}
+{#                                        {% endfor %}#}
+                               }).jPlayer("play");
+                                },
+                                ended: function (event) {
+                               $(this).jPlayer("play");
+                                },
+                                swfPath: "../bundles/duskuser/js",
+                                supplied: "mp3",
+                           });
+
+                            var cssSelector{{ key}} = {
+                                jPlayer: "#jquery_jplayer_{{ key }}",
+                                cssSelectorAncestor: "#jp_container_{{ key }}"
+                            };
+                            
+                            var myPlaylist{{ key}} = new jPlayerPlaylist(cssSelector{{ key }});
+            
+                            
+                            {% for track in record.tracks %}
+                                myPlaylist{{ key}}.add({
+                                    title: '{{ track.title }}',
+                                    artist: '{{ track.artist }}',
+                                    mp3: '{{ asset('uploads/track/audio/'~track.audio) }}',
+{#                                    poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png",#}
+                                });
+                            {% endfor %}
+                            
+
+                            myPlaylist{{ key}}.options = {
+                                autoPlay: false,
+                                supplied: "mp3",
+                                wmode: "window",
+                                shuffleTime: "slow",
+                                addTime: "slow",
+                                removeTime: "slow",
+                            };
+                        });
+                    </script>
+                {% endfor %}
+                
+            </ul>
+            <div class="clearfix"></div>
+            <a id="prev2" class="prev" href="#">&nbsp;</a> <a id="next2" class="next" href="#">&nbsp;</a> </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function playit(index) {
+        
+        $("#jquery_jplayer_"+index).jPlayer("setMedia", {
+            mp3: "http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3"
+        });
+        $("#jquery_jplayer_"+index).jPlayer("play");
+        
+        return true;
+    }
+    function pauseit(index) {
+        
+        {#$("#jquery_jplayer_"+index).jPlayer("setMedia", {
+            mp3: "http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3"
+        });#}
+        $("#jquery_jplayer_"+index).jPlayer("pause");
+        
+        return true;
+    }
+    function stopit(index) {
+        
+        {#$("#jquery_jplayer_"+index).jPlayer("setMedia", {
+            mp3: "http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3"
+        });#}
+        $("#jquery_jplayer_"+index).jPlayer("stop");
+        
+        return true;
+    }
+</script>

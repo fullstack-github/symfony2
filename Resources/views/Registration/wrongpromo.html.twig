@@ -1,0 +1,49 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div">&nbsp;</div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>Subscribe</h1>
+                    <!--Nav left-->
+                    {#{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }#}
+                    <!--Ends-->
+                    <div class="cont-left">
+                        <h2>Welcome to Dusk!</h2>
+                        <p>Welcome to Dusk Music by signing up for the 14 day free trial you are agreeing to our <a href="{{ path('dusk_termandcondition') }}">Terms and conditions.</a></p>
+
+                        <p>By agreeing to this you acknowledge that Dusk Music will not charge your Credit Card until the end of the 14 day free trial period expires, at which time you will be automatically charged the ongoing monthly subscription fee which is outlined on our pricing page. </p>
+
+                        <p>When you proceed through and register your information you will be given 2 Pricing options depending on your requirements.</p>
+
+                        <p>The “Premium” option for $250 per month gives you access to all playlists featured on duskmusic.com during the trial.</p>
+
+                        <p>The “Taster” option for $100 gives you access to just one of the playlists on duskmusic.com, you can change playlists at any time for the cost of $25 per change.</p>
+
+                        <p>At any time during or after the free trial you may unsubscribe by clicking this <a href="mailto:unsubscribe@duskmusic.com">link</a> or emailing unsubscribe@duskmusic.com.</p>
+
+                        <p>Once you have unsubscribed we will not retain any personal information. </p>
+                    </div>
+                </div>
+                <!--Ends-->
+                <div class="midcont">
+                <p class="massage-text">
+                        You are not allowed to create account at this time. Please <a href="{{ path('dusk_contactus') }}" title="Contact Us">Contact Us</a> for new account.
+                  </p>  
+                </div>
+            </div>
+        </div>
+    
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends--> 
+<!--Ends--> 
+</div>
+</div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

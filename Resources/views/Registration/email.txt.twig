@@ -1,0 +1,79 @@
+{% block subject %}
+{% autoescape false %}
+{{ 'registration.email.subject'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') }}
+{% endautoescape %}
+{% endblock %}
+{% block body_text %}
+{% autoescape false %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dusk Emailer</title>
+<style>
+@font-face {
+    font-family: 'futura_bk_btbook';
+    src: url('{{url}}{{ asset('bundles/duskuser/images/futuran_0-webfont.eot') }}');
+    src: url('{{url}}{{ asset('bundles/duskuser/images/futuran_0-webfont.eot?#iefix') }}') format('embedded-opentype'),
+         url('{{url}}{{ asset('bundles/duskuser/images/futuran_0-webfont.woff') }}') format('woff'),
+         url('{{url}}{{ asset('bundles/duskuser/images/futuran_0-webfont.ttf') }}') format('truetype'),
+         url('{{url}}{{ asset('bundles/duskuser/images/futuran_0-webfont.svg#futura_bk_btbook') }}') format('svg');
+    font-weight: normal; font-style: normal;}
+</style>
+</head>
+
+<body style="margin:0px auto; padding:0px; font-family:Arial, Helvetica, sans-serif; font-size:14px;">
+<table width="682" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+   <td align="center"><img src="{{url}}{{ asset('bundles/duskuser/images/header-topbg.jpg') }}" alt=""></td>
+  </tr>
+  <tr class="border">
+    <td style="border-left:1px solid #dfe1e1;border-right:1px solid #dfe1e1; text-align:center;"><img src="{{url}}{{ asset('bundles/duskuser/images/dusk-logo.jpg') }}" alt=""></td>
+  </tr>
+  <tr>
+    <td><img src="{{url}}{{ asset('bundles/duskuser/images/header-bottombg.jpg') }}" alt=""></td>
+  </tr>
+  
+  <tr class="border">
+    <td align="center" style="border-left:1px solid #dfe1e1;border-right:1px solid #dfe1e1; text-align:center;"><img src="{{url}}{{ asset('bundles/duskuser/images/bespock-img.jpg') }}" alt=""></td>
+  </tr>
+  <tr class="border">
+    <td style="padding:20px 20px 50px 20px; border-left:1px solid #dfe1e1;border-right:1px solid #dfe1e1; text-align:center;">
+     <p style="color:#ea8030; font-size:35px; font-weight:bold; text-align:center; text-transform:uppercase; margin:0px;">Thankyou</p>
+    <p style="color:#953948; font-size:24px; font-weight:bold; text-align:center; margin:0px; margin-bottom:30px;">for registering</p>
+    <p style="text-align:left;">
+        {{ 'registration.email.message'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') }}
+    </p></td>
+  </tr>
+  
+  <tr>
+   <td><img src="{{url}}{{ asset('bundles/duskuser/images/footer-topbg.jpg') }}" alt=""></td>
+  </tr>
+  <tr class="border">
+    <td style="border-left:1px solid #dfe1e1;border-right:1px solid #dfe1e1; text-align:center;"><p style="width:100%; text-align:center; margin:0px;"><a href="#"  style="margin-right:10px; display:inline-block;"><img src="{{url}}{{ asset('bundles/duskuser/images/fb-icon.jpg') }}" alt=""></a>
+                <a style="margin-right:10px; display:inline-block;" href="#"><img src="{{url}}{{ asset('bundles/duskuser/images/twitter-icon.jpg') }}" alt=""></a>
+                <a  style="margin-right:10px; display:inline-block;" href="#"><img src="{{url}}{{ asset('bundles/duskuser/images/instagram.jpg') }}" alt=""></a>
+        </p>
+    <p>
+     <ul style="list-style-type:none; margin:0px auto; padding:0px; text-align:center;">
+        <li style="display:inline-block; list-style-type:none; margin:0px; padding:0px 10px;"><a href="#" style="color:#000; text-decoration:none; font-family:'futura_bk_btbook'; font-size: 16px;">About</a></li>
+        <li style="display:inline-block; list-style-type:none; margin:0px; padding:0px 10px;"><a href="#" style="color:#000; text-decoration:none; font-family:'futura_bk_btbook'; font-size: 16px;">Music</a></li>
+        <li style="display:inline-block; list-style-type:none; margin:0px; padding:0px 10px;"><a href="#" style="color:#000; text-decoration:none; font-family:'futura_bk_btbook'; font-size: 16px;">Contact Us</a></li>
+        <li style="display:inline-block; list-style-type:none; margin:0px; padding:0px 10px;"><a href="#" style="color:#000; text-decoration:none; font-family:'futura_bk_btbook'; font-size: 16px;">Blog</a></li>
+        <li style="display:inline-block; list-style-type:none; margin:0px; padding:0px 10px;"><a href="#" style="color:#000; text-decoration:none; font-family:'futura_bk_btbook'; font-size: 16px;">Member Login</a></li>
+    </ul>
+    </p>
+    </td>
+  </tr>
+  <tr>
+   <td><img src="{{url}}{{ asset('bundles/duskuser/images/footer-bottombg.jpg') }}" alt=""></td>
+  </tr>
+</table>
+
+</body>
+</html>
+{% endautoescape %}
+{% endblock %}
+{% block body_html %}{% endblock %}
+
+

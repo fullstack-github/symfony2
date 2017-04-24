@@ -1,0 +1,73 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>MY ACCOUNT</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+
+                </div>
+                <!--Ends-->
+                <div class="midcont">
+                    <div class="two-tab-title"> <span>Account Summary</span>
+                        <ul>
+                            <li><a href="{{ path('dusk_account') }}" class="active">Venues [{{ venueCount }}]</a></li>
+                            <li><a href="{{ path('dusk_dashboard') }}">Account Details</a></li>
+                        </ul>
+                    </div>
+                    <div class="tabsbox"> <span class="label">Status: {% if app.user %}Active{% else %}Inactive{% endif %}</span>
+                        <ul class="ulmenu">
+                            <li><a href="{{ path('dusk_account') }}">My Account</a></li>
+                            <li><a href="{{ path('dusk_overview') }}">Overview</a></li>
+                            <li><a href="{{ path('dusk_billing_history') }}" class="active">Billing History</a></li>
+                        </ul>
+                    </div>    
+                        
+                    <div class="tabsbox-content">
+                        <div class="tabsbox-title"><span>Billing History</span></div>
+                        <table class="tablegrid">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">Invoice Date
+                                        <p class="text">Member Since {{ user.createdAt | date('d F Y') }}</p>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                {% for flashMessage in app.session.flashbag.get('notice') %}
+                                    <p class="msg-text">{{ flashMessage }}</p>
+                                {% endfor %}
+                                {% if records is not empty %}
+                                    {% for record in records %}
+                                        <tr>
+                                            <td>{{ record.startedAt | date('d F Y') }}</td>
+                                            <td width="50" class="textcenter"><a href="#">View</a></td>
+                                            <td width="100"><a class="download" href="#"><img src="{{ asset('bundles/duskuser/images/pdf-icon.jpg')}}" width="16" height="17" alt=""> Download </a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends--> 
+        
+    </div>
+</div>
+
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

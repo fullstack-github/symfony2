@@ -1,0 +1,264 @@
+dusk_user_homepage:
+    pattern:  /
+    defaults: { _controller: DuskUserBundle:Default:index }
+    
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+dusk_about:
+    pattern:  /about
+    defaults: { _controller: DuskUserBundle:Page:about }
+    
+dusk_howitworks:
+    pattern:  /how-it-works
+    defaults: { _controller: DuskUserBundle:Page:howitworks }
+    
+dusk_duskteam:
+    pattern:  /team
+    defaults: { _controller: DuskUserBundle:Page:duskteam }
+    
+dusk_testimonials:
+    pattern:  /testimonials
+    defaults: { _controller: DuskUserBundle:Page:testimonials }
+    
+dusk_media:
+    pattern:  /dusk-media
+    defaults: { _controller: DuskUserBundle:Page:media }
+
+dusk_media_detail:
+    pattern:  /dusk-media-detail/{id}
+    defaults: { _controller: DuskUserBundle:Page:mediaDetail }
+
+dusk_contactus:
+    pattern:  /contact-us
+    defaults: { _controller: DuskUserBundle:Default:contact }
+
+dusk_newsletter:
+    pattern:  /newsletter
+    defaults: { _controller: DuskUserBundle:Default:saveNewsletter }
+
+dusk_dashboard:
+    pattern:  /dashboard
+    defaults: { _controller: DuskUserBundle:Dashboard:index }
+
+dusk_mymusic:
+    pattern:  /my-music
+    defaults: { _controller: DuskUserBundle:Music:index }
+
+dusk_music_venue:
+    pattern:  /my-music/{slug}
+    defaults: { _controller: DuskUserBundle:Music:venue }
+
+dusk_music:
+    pattern:  /music
+    defaults: { _controller: DuskUserBundle:Page:music }
+    
+dusk_venue:
+    pattern:  /venue/my-venue
+    defaults: { _controller: DuskUserBundle:Venue:index }
+
+dusk_venue_new:
+    pattern:  /venue/add-new-venue
+    defaults: { _controller: DuskUserBundle:Venue:new }
+
+dusk_venue_detail:
+    pattern:  /venue/venue-details/{id}
+    defaults: { _controller: DuskUserBundle:Venue:detail }
+
+dusk_venue_activation:
+    pattern:  /venue/venue-change-status/{id}
+    defaults: { _controller: DuskUserBundle:Venue:changeActivation }
+    
+dusk_invite_friend:
+    pattern:  /invite-friend
+    defaults: { _controller: DuskUserBundle:Default:invite }
+
+dusk_save_invite_friend:
+    pattern:  /save_invite-friend
+    defaults: { _controller: DuskUserBundle:Default:saveInvite }
+
+dusk_help:
+    pattern:  /help
+    defaults: { _controller: DuskUserBundle:Help:index }
+    
+dusk_room:
+    pattern:  /venue/room-list/{id}
+    defaults: { _controller: DuskUserBundle:Room:index }
+    
+dusk_room_new:
+    pattern:  /venue/add-room/{id}
+    defaults: { _controller: DuskUserBundle:Room:new }
+
+dusk_room_detail:
+    pattern:  /venue/room-detail/{id}
+    defaults: { _controller: DuskUserBundle:Room:detail }
+
+dusk_room_update:
+    pattern:  /venue/update-room/{id}
+    defaults: { _controller: DuskUserBundle:Room:update }
+    
+dusk_room_activation:
+    pattern:  /venue/room-change-status/{id}
+    defaults: { _controller: DuskUserBundle:Room:changeActivation }
+
+dusk_help:
+    pattern:  /help/{type}
+    defaults: { _controller: DuskUserBundle:Help:index, type: 'music' }
+
+dusk_help_view:
+    pattern:  /help/view/{slug}
+    defaults: { _controller: DuskUserBundle:Help:view }
+    
+dusk_overview:
+    pattern:  /overview
+    defaults: { _controller: DuskUserBundle:Dashboard:overview }
+
+dusk_account:
+    pattern:  /account
+    defaults: { _controller: DuskUserBundle:Dashboard:account }
+    
+dusk_resend_account_login:
+    pattern: /resend-account-login/{id}
+    defaults: { _controller: DuskUserBundle:User:resendCredential }
+
+dusk_blog:
+    pattern: /blogs
+    defaults: { _controller: DuskUserBundle:Blog:index }
+    
+dusk_pricing:
+    pattern: /pricing
+    defaults: { _controller: DuskUserBundle:Page:pricing }
+
+payment_details:
+    pattern: /{orderNumber}/details
+    defaults: { _controller: DuskUserBundle:Payment:details }
+    
+payment_complete:
+    pattern: /{orderNumber}/complete
+    defaults: { _controller: DuskUserBundle:Payment:complete }
+    
+payment_cancel:
+    pattern: /{orderNumber}/cancel
+    defaults: { _controller: DuskUserBundle:Payment:cancel }
+
+payment_checkout:
+    pattern: /{orderNumber}/checkout
+    defaults: { _controller: DuskUserBundle:Payment:checkout }
+
+room_purchase:
+    pattern: /{orderNumber}/room
+    defaults: { _controller: DuskUserBundle:Room:purchase }
+
+dusk_billing_history:
+    pattern: /billing-history
+    defaults: { _controller: DuskUserBundle:Billing:index }
+    
+dusk_cms_page:
+    pattern: /pages/{slug}
+    defaults: { _controller: DuskUserBundle:Dashboard:cms }
+    
+dusk_load_state:
+    pattern: /state/{id}
+    defaults: { _controller: DuskUserBundle:Default:loadState }
+
+dusk_team_detail:
+    pattern: /team-detail/{id}
+    defaults: { _controller: DuskUserBundle:Page:teamDetail }
+    
+dusk_new_playlist:
+    pattern: /new-playlist
+    defaults: { _controller: DuskUserBundle:Music:newPlaylist }
+
+#dusk_playlist_play:
+#    pattern: /playing-now/{id}
+#    defaults: { _controller: DuskUserBundle:Music:playingNow }
+    
+dusk_play_music:
+    pattern: /play-music/{id}
+    defaults: { _controller: DuskUserBundle:Music:playMusic }
+    
+    
+dusk_get_tracks:
+    pattern: /get-tracks/{id}
+    defaults: { _controller: DuskUserBundle:Music:getTracks }
+
+dusk_stream:
+    pattern:  /stream
+    defaults: { _controller: DuskUserBundle:Page:stream }
+
+dusk_try_free:
+    pattern:  /try-it-for-free
+    defaults: { _controller: DuskUserBundle:Page:tryFree }
+
+dusk_multi_room_venue:
+    pattern:  /multi-room-venue
+    defaults: { _controller: DuskUserBundle:Page:multiRoomVenue }
+
+dusk_change_venue:
+    pattern: /my-music/venue/{id}
+    defaults: { _controller: DuskUserBundle:Music:venue }
+    
+dusk_change_room:
+    pattern: /my-music/room/{id}
+    defaults: { _controller: DuskUserBundle:Music:room }
+
+dusk_add_album:
+    pattern: /add-album/{albumId}
+    defaults: { _controller: DuskUserBundle:Album:addAlbum }
+    
+dusk_add_album_save:
+    pattern: /save-album/{albumId}
+    defaults: { _controller: DuskUserBundle:Album:saveAlbum }
+    
+dusk_add_tracks:
+    pattern: /add-tracks/{id}
+    defaults: { _controller: DuskUserBundle:Album:addTracks }
+
+dusk_free_tracks:
+    pattern: /free-tracks/{id}
+    defaults: { _controller: DuskUserBundle:Album:freeTracks }
+
+dusk_add_album_room:
+    pattern: /add-album-to-room/{albumId}/{roomId}
+    defaults: { _controller: DuskUserBundle:Album:add }
+    
+dusk_remove_track:
+    pattern: /remove-album-to-room/{albumId}/{roomId}
+    defaults: { _controller: DuskUserBundle:Album:remove }
+
+dusk_update_album_list:
+    pattern: /update-album-list/{id}
+    defaults: { _controller: DuskUserBundle:Album:updateAlbumList }
+
+dusk_load_room:
+    pattern: /room/{venueId}
+    defaults: { _controller: DuskUserBundle:Album:loadRoom }
+
+dusk_remove_room:
+    pattern: /remove-room/{id}
+    defaults: { _controller: DuskUserBundle:Room:remove }
+    
+dusk_play_room_tracks:
+    pattern: /play-room-tracks/{id}
+    defaults: { _controller: DuskUserBundle:Music:playRoomTracks }
+
+dusk_termandcondition:
+    pattern:  /terms-and-condition
+    defaults: { _controller: DuskUserBundle:Page:termandcondition }
+    

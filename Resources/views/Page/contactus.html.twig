@@ -1,0 +1,73 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+    
+{% block slider %}
+    <!--Banner-->
+    <div class="banner contact-banner">
+        <div class="container">
+            <div class="contactbox">
+                <div class="boxleft">
+                    <h2>Contact Us</h2>
+                    <p><br />
+                    HEAD OFFICE</p>
+                    <p>+61 410 000 000</p>
+                    <p>Address Line 1<br/>
+                    Address Line 2<br/>
+                    Bondi Beach NSW 2026<br/>
+                    Australia</p>
+                    <p>Sure i'm in the shizzle dolizzle sizzle amet, consectetuer adipiscing elit. Shiznit sapien velizzle, shiz volutpizzle, suscipizzle quizzle, its fo rizzle sure, arcu. Pellentesque away tortor. Sed erizzle. Go to hizzle shut the shizzle up dapibus sure tempizzle fizzle. cool.</p>
+                </div>
+
+                <div class="boxright">
+                    <h2>Contact Form</h2>
+                    <div class="contact-form">
+                        <form  action="" {{ form_enctype(form) }} method="POST" >
+                            <div class="formdiv">
+                                <ul>
+                                    <li>
+                                        <p>
+                                            <label>Enquiry Type</label>
+                                            {{ form_widget(form.type) }}
+                                        </p>
+                                        <p>
+                                            <label>Your Name*</label>
+                                            {{ form_widget(form.name) }}
+                                        </p>
+                                        <p>
+                                            <label>Your Email*</label>
+                                            {{ form_widget(form.email) }}
+                                        </p>
+                                        <p>
+                                            <label>Your Phone</label>
+                                            {{ form_widget(form.phone) }}
+                                        </p>
+                                        <p>
+                                            <label>Your Postcode</label>
+                                            {{ form_widget(form.postcode,{'attr': {'class': 'wt80`'}} ) }}
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            <label>Your Message*</label>
+                                            {{ form_widget(form.message) }}
+                                        </p>
+                                        <p>
+                                            <span class="req-text">*Required</span>
+                                            {{ form_rest(form) }}
+                                            <button class="button">Submit</button>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Ends-->
+{% endblock %}
+{% endblock %}
+{% endblock %}

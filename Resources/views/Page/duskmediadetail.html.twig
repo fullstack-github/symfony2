@@ -1,0 +1,68 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/duskuser/css/jquery.fancybox.css')}}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/duskuser/css/jquery.fancybox-buttons.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/duskuser/css/jquery.fancybox-thumbs.css')}}" />
+{% endblock %}
+
+
+
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner about-banner">
+            <div class="container">
+                <div class="about-team">
+                    <h1>Dusk Media</h1>
+                    <ul>
+                        <li class="big-img">
+                            <span>
+                                <a class="fancybox" href="{{ asset('uploads/media/'~record.image) }}" data-fancybox-group="gallery">
+                                    {% set image = 'uploads/media/'~record.image %}
+                                    <img src="{{ image | imagine_filter('thumb_211x296')}}" alt="" />
+{#                                    <img src="{{ asset('uploads/media/'~record.image) }}"  height="296" width="211" alt="">#}
+                                </a>
+                                {% for img in record.files %}
+                                    <a class="fancybox" href="{{ asset('uploads/media/'~img.image) }}" data-fancybox-group="gallery" onclick="redirectToUrl('{{ img.link}}')"></a>
+                                {% endfor %}
+                            </span>
+                            <p><span class="name">{{ record.title }}<br /><span class="date">{{ record.releasedDate | date('d.m.Y') }}</span></span></p>
+                            <p>{{ record.description}}</p>
+                        </li>
+                    </ul>
+                    <div class="pagingdiv"> <a href="{{ app.request.headers.get('referer') }}" class="back-btn">Back</a> </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block orangestrip %}
+        {{ parent() }}
+    {% endblock orangestrip %}
+
+    {% block instantpreview %}
+        {{ parent() }}
+    {% endblock instantpreview %}
+
+    {% block whoisdusk %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox-buttons.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox-thumbs.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox-media.js') }}"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+    
+    function redirectToUrl(url) {
+        $('.fancybox').close();
+        window.open(url);
+    }
+
+</script>
+{% endblock %}

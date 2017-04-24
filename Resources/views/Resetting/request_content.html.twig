@@ -1,0 +1,14 @@
+<div class="tabsbox-content">
+ <div class="tabsbox-title"><span>Forgot Password</span></div>
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+    <ul class="cssform">
+        <li>{% if invalid_username is defined %}
+            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+        {% endif %}
+        <label for="username">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
+        <input type="text" id="username" name="username" required="required" />
+		</li>
+		<li><input type="submit" class="resetbutton" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" /></li>
+    </ul>
+</form>
+</div>

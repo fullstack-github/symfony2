@@ -1,0 +1,63 @@
+<div id="jquery_jplayer_0"></div>
+<div id="jp_container_0" class="jp-audio">
+    <div class="jp-type-single">
+        <div class="jp-gui jp-interface">
+            
+            <ul class="jp-controls">
+                <li><a tabindex="1" class="jp-thumb" href=""><img alt="" src={{ asset('bundles/duskuser/images/right-side-logo.jpg')}} width="40px" height="40px"></a></li>
+                <li><div class="jp-title jp-trackinfo" tabindex="1"></div></li>
+                <li><a tabindex="1" class="jp-pause" href="javascript:;">pause</a></li>
+                <li><a tabindex="1" class="jp-play" href="javascript:;">play</a></li>
+                <li><a tabindex="1" class="jp-stop" href="javascript:;">stop</a></li>
+                <li><a title="mute" tabindex="1" class="jp-mute" href="javascript:;">mute</a></li>
+				<li><a title="unmute" tabindex="1" class="jp-unmute" href="javascript:;">unmute</a></li>
+				<li><a title="max volume" tabindex="1" class="jp-volume-max" href="javascript:;">max volume</a></li>
+            </ul>
+        
+            <div class="jp-volume-bar">
+                <div class="jp-volume-bar-value" style="width: 0%;"></div>
+            </div>            
+            <div class="nowplaying "><br />No track playing</div> {# jp-trackinfo #}
+            <div class="jp-title plyer-title">
+                <ul class="plyerlist">
+                    <li></li>
+                </ul>
+            </div>
+            <div class="jp-progress">
+                <div class="jp-seek-bar">
+                    <div class="jp-play-bar"></div>
+                </div>
+            </div>
+            
+            <div class="jp-time-holder">
+                <ul class="jp-toggles">
+                    <li><a title="repeat" tabindex="1" class="jp-repeat" href="javascript:;">Loop on<span></span></a></li>
+                    <li><a title="repeat off" tabindex="1" class="jp-repeat-off" href="javascript:;">Loop off<span></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#jquery_jplayer_0").jPlayer({
+            ready: function() {
+                $(this).jPlayer("setMedia", {
+                }).jPlayer("play");
+            },
+            ended: function(event) {
+                $(this).jPlayer("play");
+            },
+            swfPath: "../bundles/duskuser/js",
+            supplied: "mp3",
+        });
+
+        var cssSelector = {
+            jPlayer: "#jquery_jplayer_0",
+            cssSelectorAncestor: "#jp_container_0"
+        };
+        
+        $('.jp-progress').css('display', 'none');
+        $('.jp-title').css('display', 'none');
+    });
+</script>

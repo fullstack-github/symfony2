@@ -1,0 +1,18 @@
+parameters:
+#    dusk_user.example.class: Dusk\UserBundle\Example
+
+services:
+    dusk_user.registration.form.type:
+        class: Dusk\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: dusk_user_registration }
+
+    dusk.twig.dusk_html_entity:
+        class: Dusk\UserBundle\Twig\HtmlExtension
+        tags:
+            - { name: twig.extension }
+
+    authentication_handler:
+        class: Dusk\UserBundle\EventListener\AuthenticationHandler
+        arguments:  ['@router']

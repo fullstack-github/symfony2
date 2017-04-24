@@ -1,0 +1,73 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>Subscribe</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box myroom-detail">
+
+                    <div class="myrooms-title"><p class="save-text">Have a Question? <a href="#" title="Contact Us">Contact Us</a></p>ACTIVE Rooms [{{ active }} OF {{ active + inactive }}]
+
+                    </div>
+                    <div class="myrooms-list-title">
+                        <div class="titlelist-left">
+                            <h1>{{ venue.name }}</h1>
+                            <span>This Venue is {% if venue.isActive %}ACTIVE{% else %}INACTIVE{% endif %}</span>
+                        </div>            
+                        <div class="titlelist-right">
+                            <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option>Change Venue [{{ venueCount }}]</option>
+                                {% for v in venueList %}
+                                <option value="{{ v.id}}">{{ v.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="myrooms-list-title">
+                        <div class="titlelist-left">
+                            {% if active %}<a href="{{ path('dusk_room', {'id': venue.id}) }}">ACTIVE ROOMS</a>{% else %}ACTIVE ROOMS{% endif %} [{{ active }}] <a href="{{ path('dusk_room_new', {'id': venue.id}) }}"><img class="pluse-img" src="{{ asset('bundles/duskuser/images/pluse-icon.png') }}" width="19" height="20" alt=""></a> </div>            
+                        <div class="titlelist-right">
+                            <select onchange="changeRoom(this.value)">
+                                <option value=0>Change Room [{{ roomCount }}]</option>
+                                {% for room in rooms %}
+                                <option value="{{ room.id}}">{{ room.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends--> 
+        {{ include('DuskUserBundle:Common:rooms.html.twig') }}
+    </div>
+</div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script type="text/javascript">
+    function changeRoom(id) {
+        if(id > 0) {
+            var route = "{{ path('dusk_room_detail', { 'id': "ROOMID" }) }}";
+            window.location = route.replace("ROOMID", id);
+        }
+    }
+</script>
+{% endblock javascripts %}

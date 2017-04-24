@@ -1,0 +1,322 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+        <title>Dusk Music Bespoke Soundscapes</title>
+
+        {% block css %}
+        <!--Main CSS-->
+		<link href="{{ asset('bundles/duskuser/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('bundles/duskuser/css/bootstrap-responsive.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/duskuser/css/common.css') }}" rel="stylesheet" media="screen">
+        <!--End-->
+        <!--Slider CSS-->
+        <link href="{{ asset('bundles/duskuser/css/flexslider.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/duskuser/css/jplayer.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/duskuser/css/jplayer.monday.css') }}" rel="stylesheet" media="screen">
+        <!--End-->
+        <!--[if IE 7]> 
+        <link href="{{ asset('bundles/duskuser/css/ie8.css') }}" rel="stylesheet" type="text/css" >
+        <![endif]-->
+        <!--[if IE 7]> 
+        <link href="{{ asset('bundles/duskuser/css/ie7.css') }}" rel="stylesheet" type="text/css" >
+        <![endif]-->
+        <!--[if lt IE 9]>
+        <script src="{{ asset('bundles/duskuser/js/html5shiv.js') }}" type="text/javascript"></script>
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/duskuser/css/jquery.fancybox.css')}}" media="screen" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/duskuser/css/jquery.fancybox-buttons.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/duskuser/css/jquery.fancybox-thumbs.css')}}" />
+        {% endblock css %}
+
+        {% block javascripts %}
+        <!-- jQuery -->
+        {#<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>#}
+
+        {#<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.min.js">\x3C/script>')</script>#}
+		
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery-1.8.2.min.js') }}"></script>
+		<!-- FlexSlider --> 
+		<script defer src="{{ asset('bundles/duskuser/js/jquery.flexslider.js') }}"></script>
+        <script type="text/javascript">
+            {#$(function() {
+                SyntaxHighlighter.all();
+            });#}
+            $(window).load(function() {
+                $('.flexslider').flexslider({
+                    animation: "slide",
+                    controlNav: true,
+                    directionNav: false,
+                    prevText: "", //String: Set the text for the "previous" directionNav item
+                    nextText: "",
+                    start: function(slider) {
+                        $('body').removeClass('loading');
+                    }
+                });
+            });
+        </script> 
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/bootstrap.js') }}"></script>
+      <!-- include jQuery + carouFredSel plugin -->       
+	  <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.carouFredSel-6.2.1-packed.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/client.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.jplayer.min.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jplayer.playlist.min.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox-buttons.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox-thumbs.js') }}"></script>
+      <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.fancybox-media.js') }}"></script>
+      <script type="text/javascript" language="javascript">
+            $(function() {
+                $('#foo2').carouFredSel({
+                    width: 992,
+                    height: 'auto',
+                    auto: false,
+                    scroll: 5000,
+                    prev: '#prev2',
+                    next: '#next2',
+                    pagination: "#pager2",
+                    mousewheel: true,
+                    items: 4,
+                    swipe: {
+                        onMouse: true,
+                        onTouch: true
+                    }
+                });
+            });
+            $(function() {
+                $('#foo3').carouFredSel({
+                    width: 992,
+                    height: 151,
+                    auto: false,
+                    scroll: 5000,
+                    prev: '#prev3',
+                    next: '#next3',
+                    pagination: "#pager3",
+                    mousewheel: true,
+                    items: 5,
+                    swipe: {
+                        onMouse: true,
+                        onTouch: true
+                    }
+                });
+            });
+            $(function() {
+                $('#foo4').carouFredSel({
+                    width: 992,
+                    height: 351,
+                    auto: false,
+                    scroll: 5000,
+                    prev: '#prev4',
+                    next: '#next4',
+                    pagination: "#pager4",
+                    mousewheel: true,
+                    items: 5,
+                    swipe: {
+                        onMouse: true,
+                        onTouch: true
+                    }
+                });
+            });
+            $(document).ready(function() {
+                $('.fancybox').fancybox();
+                {#$('#dusk_user_edit_email').attr("disabled", true);
+                $('#dusk_user_edit_username').attr("disabled", true);#}
+            });
+
+            function addAlbum(id) {
+                var route = "{{ path('dusk_add_album', { 'albumId': "PLACEHOLDER" }) }}";
+                postUrl = route.replace("PLACEHOLDER", id);
+
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    beforeSend: function() {
+                    },
+                    success: function(response) {
+                        $.fancybox(response);
+                    }
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            var playingFlag = false;
+            var pauseFlag = '';
+            var playingId = null;
+
+            function stopHomeAlbum(id) {
+		  document.getElementById(id+'albm').style.display='none';
+
+		  document.getElementById(id+'albm').removeAttribute("style");
+
+                if (playingId == id) {
+                    $("#jquery_jplayer_" + id).jPlayer("stop");
+                    pauseFlag = '';
+                    $('#foo2').trigger('slideTo', true);
+                    playingFlag = false;
+                }
+            }
+            function pauseHomeAlbum(id) {
+		  //$('#'+id+'albm').hide();
+  		  //document.getElementById(id+'albm').style.display='none';
+
+                $("#jquery_jplayer_" + id).jPlayer("pause");
+                pauseFlag = id;
+            }
+            function muteHomeAlbum(id) {
+                $("#jquery_jplayer_" + id).jPlayer("mute");
+                $(".home-mute").hide();
+                $(".home-unmute").show();
+            }
+            function unmuteHomeAlbum(id) {
+                $("#jquery_jplayer_" + id).jPlayer("unmute");
+                $(".home-mute").show();
+                $(".home-unmute").hide();
+            }
+            function playAllAlbum(roomId) {
+
+                var cssSelector = {
+                    jPlayer: "#jquery_jplayer_1",
+                    cssSelectorAncestor: "#jquery_jplayer_1"
+                };
+                var myPlaylist = new jPlayerPlaylist(cssSelector);
+
+                var route = "{{ path('dusk_play_room_tracks', { 'id': "PLACEHOLDER" }) }}";
+                postUrl = route.replace("PLACEHOLDER", roomId);
+
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    beforeSend: function() {
+                    },
+                    success: function(tracks) {
+                        $.each(tracks, function(i, track) {
+                            myPlaylist.add({
+                                title: track.title,
+                                artist: track.artist,
+                                mp3: "/uploads/track/audio/" + track.audio,
+                            });
+                        });
+                        myPlaylist.shuffle(true);
+                        $("#jquery_jplayer_1").jPlayer("play");
+                    }
+                });
+            }
+            function playHomeAlbum(id) {  		  
+
+                /*if (playingFlag == true) {
+                    alert('You currently are playing live music. Please press stop on the live room playlist to preview new playlist');
+                    return false;
+                }*/
+
+                if(typeof(playingId) != '' || typeof(playingId)!='undefined' ){
+                    oldPlayingId = playingId;
+                } else {
+                    oldPlayingId = false;
+                }
+        
+                playingId = id;
+                $('#foo2').trigger('pause', true);
+                var cssSelector = {
+                    jPlayer: "#jquery_jplayer_" + id,
+                    cssSelectorAncestor: "#jp_container_" + id
+                };
+                var myPlaylist = new jPlayerPlaylist(cssSelector);
+
+                var route = "{{ path('dusk_free_tracks', { 'id': "PLACEHOLDER" }) }}";
+                postUrl = route.replace("PLACEHOLDER", id);
+
+                if (pauseFlag != id) {
+                    $.ajax({
+                        type: "POST",
+                        url: postUrl,
+                        beforeSend: function() {
+                            // if track already running show alert before change track
+                            if( $(".jp-progress").css('display') === 'block'){
+                                if(!confirm('Currently other track is running, Are you sure to change the track?')){
+                                    return false;
+                                }
+                            }
+                            if(oldPlayingId) {
+                                stopHomeAlbum(oldPlayingId);
+                            }
+                        },
+                        success: function(tracks) {
+                            $.each(tracks, function(i, track) {
+                                myPlaylist.add({
+                                    title: track.title,
+                                    artist: track.artist,
+                                    mp3: "/uploads/track/audio/" + track.audio,
+                                });
+                            });
+                            myPlaylist.shuffle(true);
+{#                            if (playingFlag == true) {#}
+{#                                alert('You currently are playing live music. Please press stop on the live room playlist to preview new playlist');#}
+{#                            } else {#}
+                                $("#jquery_jplayer_" + id).jPlayer("play");
+{#                                playingFlag = true;#}
+{#                            }#}
+
+                        }
+                    });
+                } else {
+{#                    if (playingFlag == true) {#}
+{#                        alert('You currently are playing live music. Please press stop on the live room playlist to preview new playlist');#}
+{#                    } else {#}
+                        $("#jquery_jplayer_" + id).jPlayer("play");
+{#                        playingFlag = true;#}
+{#                    }#}
+                }
+		 //alert(id);
+		document.getElementById(id+'albm').style.display='block';
+		//$('#'+id+'albm').show();
+            }
+        </script>
+
+        {% endblock javascripts %}
+		
+    </head>
+
+    <body>
+        <div id="wrap"> 
+
+            <!--Header-->
+            {% block header %}
+                {{ include('DuskUserBundle:Common:header.html.twig') }}    
+            {% endblock %}
+            <!--Ends--> 
+
+            {% block body %}
+            <!--Slider-->
+                {% if app.request.attributes.get('_route') == "dusk_user_homepage" or app.request.attributes.get('_route') == "fos_user_security_login" %}
+                {% block slider %}
+                    {{ include('DuskUserBundle:Common:slider.html.twig') }}    
+                {% endblock %}
+                {% endif %}
+            <!--Ends--> 
+
+            <!--Content-->
+            <div id="maincontent" class="homepage">
+                    {% block maincontent %}
+                        {% block orangestrip %}
+                            {{ include('DuskUserBundle:Common:orangestrip.html.twig') }}
+                        {% endblock %}
+                        {% block instantpreview %}
+                            {{ render(controller('DuskUserBundle:Dashboard:instantPreview')) }}
+                        {% endblock %}     
+                        {% block whoisdusk %}
+                            {{ include('DuskUserBundle:Common:whoisdusk.html.twig') }}
+                        {% endblock %}
+                    {% endblock %}
+            </div>
+            {% endblock %}
+            <!--Ends--> 
+
+            <!--Footer-->
+            {% block footer %}
+                {{ include('DuskUserBundle:Common:footer.html.twig') }}
+            {% endblock %}
+            <!--Ends--> 
+        </div>
+    </body>
+</html>

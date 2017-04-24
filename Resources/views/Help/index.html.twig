@@ -1,0 +1,73 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="full-title-div">
+            <ul class="three-tabs">
+                <li><a {% if app.request.get('type') == 'music' %}class="active"{% endif %} href="{{ path('dusk_help', {'type': 'music'})}}">Music Help</a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li><a {% if app.request.get('type') == 'venue_room' %}class="active"{% endif %}href="{{ path('dusk_help', {'type': 'venue_room'})}}">Venue / Room Help</a></li>
+                <li><a {% if app.request.get('type') == 'account' %}class="active"{% endif %}href="{{ path('dusk_help', {'type': 'account'})}}">Account Help</a></li>
+                {% endif %}
+            </ul>
+            <span>Member Dashboard</span>
+        </div>
+        <div class="full-content">
+
+            <div class="main-column"> 
+                <div class="column-left">
+                    <h1>Dusk Help Files</h1
+                    <!--Left Column-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                
+                <div class="full-midcont">
+                    <ul class="music-list">
+                        {% for record in records %}
+                            <li>
+                             <span class="img-box">
+							 <img src="{{ asset('bundles/duskuser/images/bleck-logo.png')}}" width="147" height="83" alt="">
+							 </span>
+                             <div class="img-text">
+                             <h2><a href="{{ path('dusk_help_view', {slug: record.slug})}}">{{ record.name }}</a></h2>
+                             <p>{{ record.description | htmlentity(296)}}</p>
+                             <p><a href="{{ path('dusk_help_view', {slug: record.slug | replace({' ': '-'})})}}" class="view">View</a></p>
+							 </div>									
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+       
+        <div class="instantlyslider">
+        {{ render(controller('DuskUserBundle:Album:index')) }}
+        {#% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %#}
+        </div>
+
+
+        {#% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %#}
+    </div>
+</div>
+
+
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#venues').change(function() {
+                var route = "{{ path('dusk_change_venue', { 'id': "PLACEHOLDER" }) }}";
+                window.location = route.replace("PLACEHOLDER", $('#venues').val());
+            });
+        });
+    </script>
+{% endblock %}

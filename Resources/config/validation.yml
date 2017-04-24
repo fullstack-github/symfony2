@@ -1,0 +1,8 @@
+Dusk\UserBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+    properties:
+        email:
+            - Email: { groups: [Registration] }
+        plainPassword:
+            - Length: { min: 8, max: 15, minMessage: "Your password must have at least {{ limit }} characters", maxMessage: "Your password can have maximum {{ limit }} characters" }

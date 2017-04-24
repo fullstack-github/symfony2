@@ -1,0 +1,106 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>MY ACCOUNT</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+
+                </div>
+                <!--Ends-->
+                <div class="midcont">
+                    <div class="two-tab-title"> <span>Account Summary</span>
+                        <ul>
+                            <li><a href="{{ path('dusk_account') }}" class="active">Venues [{{ venueCount }}]</a></li>
+                            <li><a href="{{ path('dusk_dashboard') }}">Account Details</a></li>
+                        </ul>
+                    </div>
+                    <div class="tabsbox"><span class="label">Status: {% if app.user %}Active{% else %}Inactive{% endif %}</span>
+                        <ul class="ulmenu">
+                            <li><a href="{{ path('dusk_dashboard') }}">My Account</a></li>
+                            <li><a class="active" href="{{ path('dusk_overview') }}">Overview</a></li>
+                            <li><a href="{{ path('dusk_billing_history') }}">Billing History</a></li>
+                        </ul>
+                        <div class="tabsbox-content">
+                            <div class="tabsbox-title"><span>Account Overview</span></div>
+                            <table class="tablegrid">
+                                <thead>
+                                    <tr>
+                                        <th>Venues [{{ venues | length }}]</th>
+                                        <th class="textcenter"># of Rooms</th>
+                                        <th width="80">Status</th>
+                                        <th width="80">Price p/m</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                      {% set finalAmount = 0 %}
+                      {% set finalCount = 0 %}
+
+                        {% set venueCount = 0 %}
+                        {% set venueAmount = 0 %}
+                        {% if venues is not empty %}
+
+                            {% for venue in venues %}                                
+                                {% set RoomCount = 0 %}
+                                {% set ActiveRoomCount = 0 %}
+                                {% set RoomAmount = 0 %}
+
+                                {% for room in venue.rooms %}
+                                    {% if room.isActive %}
+
+                                        {% set ActiveRoomCount = ActiveRoomCount + 1 %}
+                                        {% set RoomAmount = RoomAmount + (room.subscription.price / room.subscription.month) %}
+                                        {% set venueAmount = venueAmount + (room.subscription.price / room.subscription.month) %}
+                                        {% set venueCount = venueCount + 1 %}
+                                    {% endif %}
+                                    {% set RoomCount = RoomCount + 1 %}
+
+                                {% endfor %}                                
+
+                                    <tr>
+                                        <td><a href="{{ path('dusk_venue_detail', {'id': venue.id}) }}">{{ venue.name }}</a></td>
+                                        <td class="textcenter">{{ RoomCount }}</td>
+                                        <td class="active">{{ ActiveRoomCount }} Active</td>
+                                        <td>${% if RoomAmount != 0 %}{{ (RoomAmount / ActiveRoomCount) | number_format(0, '.', ',') }}{% else %}0{% endif %}</td>
+                                    </tr>
+                        {% endfor %}
+                    {% endif %}
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2"><p>To edit any venue or room, click on the Venue and you will be taken to the individual venue’s account detail page to add rooms, edit details or remove a room.</p></td>
+                                        <td>Total:</td>
+                                        <td>${% if venueAmount !=0 %}{{ (venueAmount / venueCount) | number_format(0, '.', ',') }}{% else %}0{% endif %} p/m</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Right Column-->
+        <div class="column-right">
+            <div class="right-img">
+                <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/right-side-logo.jpg')}}" width="248" height="213" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/img7.jpg')}}" width="248" height="213" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+            </div>
+        </div>
+        <!--Ends--> 
+    </div>
+</div>
+
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

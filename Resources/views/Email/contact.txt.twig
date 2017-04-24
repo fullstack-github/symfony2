@@ -1,0 +1,9 @@
+Name: {{ data.name }}<br />
+{% if data.enquiryCategory is not null %}Contact Type: {{ data.enquiryCategory.name }}{% endif %}
+Email: {{ data.email }}<br />
+{% if data.phone is not null %}Phone: {{ data.phone }}<br />{% endif %}
+{% if data.postcode is not null %}Postal Code: {{ data.postcode }}<br />{% endif %}
+Message: {{ data.message }}<br /><br /><br />
+
+Regards,<br />
+Dusk Team.

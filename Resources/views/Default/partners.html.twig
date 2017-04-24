@@ -1,0 +1,18 @@
+    <div class="dusk-partners">
+        <h3>Some of the brands we've DJ'd for ...</h3>
+        <ul id="foo3">
+            {% if partners is not null %}
+                {% for partner in partners %}
+                    {% set image = 'uploads/partner/'~partner.image %}
+                    {% if partner.url != '' %}
+                        <li><a href="{{ partner.url }}" target="_blank"><img src="{{ image | imagine_filter('thumb_151')}}" alt="{{ partner.url }}"></a></li>
+                    {% else %}
+                        <li><img src="{{ image | imagine_filter('thumb_151')}}" alt="{{ partner.url }}"></li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+        <div class="clearfix"></div>
+        <a id="prev3" class="prev" href="#">&nbsp;</a>
+        <a id="next3" class="next" href="#">&nbsp;</a> 
+    </div>

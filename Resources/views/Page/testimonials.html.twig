@@ -1,0 +1,49 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+<div class="banner about-banner">
+    <div class="container">
+      <div class="about-team">
+        <h1>Testimonials</h1>
+        <ul>
+            {% for testimonial in pagination %}
+                <li>
+                    {% set image = 'uploads/testimonial/'~testimonial.image %}
+                    <span><img src="{{ image | imagine_filter('thumb_113')}}" alt=""></span>
+                    <p>{{ testimonial.message | htmlentity(500) }}</p>
+                    <span class="name">{{ testimonial.name}} - {{ testimonial.company }}<br />
+                    {#<span class="date">{{ testimonial.date | date('d.m.Y') }}</span></span>#}
+                </li>
+            {% endfor %}
+          
+        </ul>
+        <div class="pagingdiv">
+          <ul>
+              <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+              </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% block orangestrip %}
+            {{ parent() }}
+        {% endblock orangestrip %}
+
+        {% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %}
+
+        {% block whoisdusk %}
+            {{ parent() }}
+        {% endblock %}
+        {{ render(controller('DuskUserBundle:Default:partners')) }}
+{% endblock %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.first,.previous,.next,.last').hide();
+    });
+</script>
+{% endblock %}

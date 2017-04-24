@@ -1,0 +1,31 @@
+<div id="light" class="login-content"> <a class="close-btn" href = "javascript:void(0)" onclick ="document.getElementById('light').style.display = 'none';">X</a>
+    {% trans_default_domain 'FOSUserBundle' %}
+    {% block fos_user_content %}
+    {% if error %}
+    <div class="msg-text">{{ error|trans }}</div>
+    {% endif %}
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />        
+        <div class="left-login">
+            <h2>Login</h2>
+            <p>
+                <input type="text" id="username" placeholder="Username" name="_username" value="{{ last_username }}" required="required" />
+            </p>
+            <p>
+                <input type="password" id="password" placeholder="Password" name="_password" required="required" />
+            </p>
+            <!--<p><a href="#">Forgot Password?</a></p>-->
+            <p><a href="{{ path('fos_user_resetting_request') }}">Forgot password ?</a></p>
+            <div class="login-btn">
+                <label><input type="checkbox" id="remember_me" name="_remember_me" value="on" /> {{ 'security.login.remember_me'|trans }}</label> <input class="button" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" /> 
+            </div>
+        </div>
+        <div class="right-login">
+            <h2>Register</h2>
+            <p class="blue-text">Free 14 Day Trial</p>
+            <p>Get free access to any one playlist of your choice for two weeks. Be streaming live in minutes.</p>
+            <a href="{{ path('fos_user_registration_register') }}">Signup</a>
+        </div>
+    </form>        
+    {% endblock fos_user_content %}    
+</div>

@@ -1,0 +1,23 @@
+<div class="add-title">
+    <span class="left" id="prev2"><a href="#">&laquo;</a></span> <span class="right" id="next2"><a href="#">&raquo;</a></span>
+    Add a little more flavour to your room
+</div>
+<div class="instantly-carousel">
+    <ul id="foo2">
+        {% if app.user %}
+            {% for album in albums %}
+                {% set image = 'uploads/album/'~album.image %}
+                <li>
+                    <a href="javascript:void(01);" onclick="addAlbum({{ album.id }})" class="fancybox">
+                        <img src="{{ image | imagine_filter('thumb_248x213') }}" alt="" title="{{ album.title}}" width="248" height="213">
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            {% for album in albums %}
+                {% set image = 'uploads/album/'~album.image %}
+                <li><img src="{{ image | imagine_filter('thumb_248x213') }}" alt="" width="213" height="248"/></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>

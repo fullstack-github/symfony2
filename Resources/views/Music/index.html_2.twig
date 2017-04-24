@@ -1,0 +1,162 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>UPPER DECK<span>DUSK SUPERYACHT</span></h1>
+                    <p>
+                        <select id="venues" onchange="loadVenues(this.value)">
+                            <option value=0>Change Venue [{{ venueCount }}]</option>
+                            {% for venue in venues %}
+                            <option value="{{ venue.slug }}">{{ venue.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box">                    
+                    <div class="titlelist-right">
+
+                        <div id="jquery_jplayer_1"></div>
+
+                        <div id="jp_container_1" class="jp-audio">
+                            <div class="jp-type-single">
+                                <div class="jp-gui jp-interface">
+                                    <ul class="jp-controls">
+                                        <li><a tabindex="1" class="jp-play" href="javascript:void(0);">play</a></li>
+                                        <li><a tabindex="1" class="jp-pause" href="javascript:void(0);">pause</a></li>
+                                        <li><a tabindex="1" class="jp-stop" href="javascript:void(0);">stop</a></li>
+                                        <li><a title="mute" tabindex="1" class="jp-mute" href="javascript:void(0);">mute</a></li>
+                                        <li><a title="unmute" tabindex="1" class="jp-unmute" href="javascript:void(0);" style="display: none;">unmute</a></li>
+                                        <li><a title="max volume" tabindex="1" class="jp-volume-max" href="javascript:void(0);">max volume</a></li>  
+                                    </ul>
+                                    <div class="jp-progress">
+                                        <div class="jp-seek-bar" style="width: 0%;">
+                                            <div class="jp-play-bar" style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="jp-volume-bar">
+                                        <div class="jp-volume-bar-value" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="jp-time-holder">
+                                        <div class="jp-current-time"></div>
+                                        <div class="jp-duration"></div>
+
+                                        <ul class="jp-toggles">
+                                            <li><a title="repeat" tabindex="1" class="jp-repeat" href="javascript:void(0);">repeat</a></li>
+                                            <li><a title="repeat off" tabindex="1" class="jp-repeat-off" href="javascript:void(0);" style="display: none;">repeat off</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="jp-title">
+                                    <ul>
+                                        <li>No track selected</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="mymusic-box">
+                        <div class="mymusic-title"><p class="save-text">
+                            <a href="javascript:void(0);">Click to Play</a></p>
+                            <div id="venue_name"></div> music library [{{ trackCount }}]
+                        </div>
+                        <div class="mymusic-list">
+                            <ul>   
+                                {% for track in tracks %}
+                                    <li>
+                                        <div class="listleft">
+                                            <span><img src="{{ asset('uploads/track/image/'~track.image) }}" width="40" height="40" alt=""></span><span>{{ track.title }} - {{ track.artist }}</span>
+                                        </div>
+                                        <div class="listright">
+                                            <a href="javascript:void(0);" onclick="playTrack('{{ track.audio }}', '{{ track.title }}')">
+                                                <img class="imgleft" src="{{ asset('bundles/duskuser/images/play-btn.png') }}" width="26" height="26" alt="">
+                                            </a>
+                                            <span class="time">2d 38h 17m</span>
+                                            <a href="javascript:void(0);" onclick="stopTrack()"><img class="imgright" src="{{ asset('bundles/duskuser/images/cencal-btn.png') }}" width="19" height="20" alt=""></a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Right Column-->
+        <div class="column-right">
+            <div class="right-img">
+                <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/right-side-logo.jpg')}}" width="248" height="213" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/img7.jpg')}}" width="248" height="213" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+            </div>
+        </div>
+        <!--Ends-->
+            {{ include('DuskUserBundle:Common:rooms.html.twig') }}
+    </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/duskuser/css/jplayer.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ asset('bundles/duskuser/css/jplayer.monday.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.jplayer.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jplayer.playlist.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/prettify.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $("#jquery_jplayer_1").jPlayer({
+                ready: function () {
+                   $(this).jPlayer("setMedia", {
+{#                   mp3: "http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3"#}
+               }).jPlayer("play");
+                },
+                ended: function (event) {
+               $(this).jPlayer("play");
+                },
+                swfPath: "../bundles/duskuser/js",
+                supplied: "mp3"
+           });
+        });
+        
+        function playTrack(audio, title) {
+            $("#jquery_jplayer_1").jPlayer("setMedia", {
+                mp3: "{{ asset('uploads/track/audio/') }}"+audio,
+            });
+            $("#jquery_jplayer_1").jPlayer("play");
+    
+            $(".jp-title ul li").html(title);
+            $("#jquery_jplayer_1").jPlayer("play");
+            return true;
+        }
+        
+        function stopTrack() {
+            $("#jquery_jplayer_1").jPlayer("stop");
+            return true;
+        }
+       
+
+        function loadVenues(venue) {
+            if (venue != 0) {
+                var route = "{{ path('dusk_music_venue', { 'slug': "PLACEHOLDER" }) }}";
+                window.location = route.replace("PLACEHOLDER", venue);
+            }
+        }
+    </script>
+{% endblock %}

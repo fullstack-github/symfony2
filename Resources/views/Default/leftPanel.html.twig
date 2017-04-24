@@ -1,0 +1,71 @@
+<div class="nav-left">
+    <ul>
+        <li>
+            {% if app.user %}
+                {% if route == 'dusk_mymusic' or route == 'dusk_change_room' %}
+                    <a class="current" href="{{ path('dusk_mymusic')}}">
+                {% else %}
+                    <a href="{{ path('dusk_mymusic')}}">
+                {% endif %}
+            {% else %}
+                <a href="#">    
+            {% endif %}
+            
+            <img src="{{ asset('bundles/duskuser/images/pluse-icon.png')}}" width="19" height="20" alt="">MUSIC STREAMS</a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            {% if app.user %}
+                {% if route == 'dusk_venue' or route == 'dusk_venue_new' or route == 'dusk_venue_detail' or 
+                    route == 'dusk_venue_activation' or route == 'dusk_room' or route == 'dusk_room_new' or 
+                    route == 'dusk_room_detail' or route == 'dusk_room_update' or route == 'dusk_room_activation' %}
+                    <a class="current" href="{{ path('dusk_venue')}}">
+                {% else %}
+                    <a href="{{ path('dusk_venue')}}">
+                {% endif %}
+            {% else %}
+                <a href="#">    
+            {% endif %}
+            <img src="{{ asset('bundles/duskuser/images/pluse-icon.png')}}" width="19" height="20" alt="">My Venues <span>{% if venues is not null %}[{{ venues }}]{% endif %}</span></a>
+        </li>
+        <li>
+            {% if app.user %}
+                {% if (route == 'dusk_account') or (route == 'dusk_dashboard') or (route == 'dusk_overview') or (route == 'dusk_billing_history') %}
+                    <a class="current" href="{{ path('dusk_dashboard')}}">
+                {% else %}
+                    <a href="{{ path('dusk_dashboard')}}">
+                {% endif %}
+            {% else %}
+                <a href="#">    
+            {% endif %}
+            My Account</a>
+        </li>
+        <li>
+            {% if app.user %}
+                {% if route == 'dusk_invite_friend' or route == 'dusk_save_invite_friend' %}
+                    <a class="current" href="{{ path('dusk_invite_friend')}}">
+                {% else %}
+                    <a href="{{ path('dusk_invite_friend')}}">
+                {% endif %}
+            {% else %}
+                <a href="#">    
+            {% endif %}
+            Invite a Friend</a>
+        </li>
+        {% endif %}
+        <li>
+            {% if route == 'dusk_help' or route == 'dusk_help_view' %}
+                <a class="current" href="{{ path('dusk_help')}}">
+            {% else %}
+                <a href="{{ path('dusk_help')}}">
+            {% endif %}
+            Help</a>
+        </li>
+        {% if app.user %}
+            <li>
+                <a href="{{ path('fos_user_security_logout')}}">Logout</a>
+            </li>
+        {% endif %}
+        
+    </ul>
+</div>

@@ -1,0 +1,32 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>MY ACCOUNT</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+
+                </div>
+                <!--Ends-->
+                <div class="midcont">            
+                {% include "FOSUserBundle:Dashboard:profileEdit.html.twig" with {'venueCount': venueCount} %}
+                </div>
+            </div>
+        </div>
+
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends--> 
+    </div>
+</div>
+
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

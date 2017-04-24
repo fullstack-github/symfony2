@@ -1,0 +1,46 @@
+<form action="{{ path('dusk_newsletter')}}" method="post" {{ form_enctype(form) }} id="formId">
+    <div id='news_msg' style='color:red;'></div>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    
+    <li>
+        <label>First name</label>
+        {{ form_widget(form.name) }}
+    </li>
+    <li>
+        <label>Email</label>
+        {{ form_widget(form.email) }}
+    </li>
+    <li>
+        {{ form_rest(form) }}
+        <input type="submit" class="button" value="Submit"/>
+    </li>
+</form>
+
+<script type = "text/javascript">
+    $(document).ready(function() {
+
+        $('#formId').submit(function() {
+            var dataString = $('#formId').serialize();
+            var postUrl = $('#formId').attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: postUrl,
+                data: dataString,
+                beforeSend: function() {
+                    $('#news_msg').html('Please wait...');
+                },
+                success: function(response) {
+                    $('#news_msg').html(response['msg']);
+                    $('#dusk_newsletter_name').val('');
+                    $('#dusk_newsletter_email').val('');
+                }
+            });
+            return false;
+        });
+    });
+</script>

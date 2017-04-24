@@ -1,0 +1,74 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1><span>{% if details['currentVenue'] is not empty %}{{ details['currentVenue'].name }}{% else %}No venue Selected{% endif %}</span></h1>
+                    {% if details['activeRoomCount'] > 1 %}
+                    <p>
+                        <select id="rooms" class="change-benue">
+                            <option value=0>Please Select [{{ details['activeRoomCount'] }}]</option>
+                            {% for room in venue.rooms %}
+                                {% if room.isActive == 1 %}
+                                    <option value="{{ room.id }}">{{ room.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    {% endif %}
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box venue-box">
+                    <br />
+                    <p class="msg-text">
+                        {% if details['activeRoomCount'] == 0 %}
+                            Please Add Room To Venue
+                        {% else %}                        
+                            {% if app.session.flashbag.get('notice') %}
+                                {% for flashMessage in app.session.flashbag.get('notice') %}
+                                    {{ flashMessage }}
+                                {% endfor %}
+                            {% else %}
+                                Please select your room first.
+                            {% endif %}
+
+                        {% endif %}
+                    </p>
+                    {#% include "FOSUserBundle:Music:player.html.twig" %#}
+                    
+                    
+                </div>
+            </div>
+        </div>
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends-->
+
+        {{ render(controller('DuskUserBundle:Album:index')) }}
+        
+        {#% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %#}
+    </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#rooms').change(function() {
+                var route = "{{ path('dusk_change_room', { 'id': "PLACEHOLDER" }) }}";
+                window.location = route.replace("PLACEHOLDER", $('#rooms').val());
+            });            
+        });
+    </script>
+{% endblock %}

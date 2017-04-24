@@ -1,0 +1,65 @@
+<h1>Add Playlist To Room</h1>
+{% set image = 'uploads/album/'~album.image %}
+<img src="{{ image | imagine_filter('thumb_248x213') }}" alt=""/>
+<form action="{{ path('dusk_add_album_save', {'albumId': album.id}) }}" {{ form_enctype(form) }} method="POST" id="addAlbum">
+    <div id='aa_msg' style='color:red;'></div>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div class="leftbox">Venue:&nbsp;
+       {{ form_widget(form.venue) }}{{ form_errors(form.venue)}}
+    </div>
+    <div class="leftbox">Room:&nbsp;
+       {{ form_widget(form.room) }}{{ form_errors(form.room)}}
+    </div>
+    <div class="leftbox">
+       {{ form_widget(form.album) }}{{ form_errors(form.album)}}
+    </div>
+    <input type="submit" class="submit-btn" value="Save"/>
+</form>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#addAlbum').submit(function() {
+            var dataString = $('#addAlbum').serialize();
+            var postUrl = $('#addAlbum').attr('action');
+
+            $.ajax({
+                type: "POST",
+                url: postUrl,
+                data: dataString,
+                beforeSend: function() {
+                    $('#aa_msg').html('Please wait...');
+                },
+                success: function(response) {
+                    $('#aa_msg').html(response['msg']);
+                }
+            });
+            return false;
+        });
+    });
+    
+    $("#form_venue").change(function() {
+        
+         var route = "{{ path('dusk_load_room', { 'venueId': 'PLACEHOLDER' }) }}";
+        
+         $.ajax({
+                type: "GET",
+                url: route.replace("PLACEHOLDER", this.value),
+                beforeSend: function() {
+                    
+                },
+                success: function(response) {
+
+                    var sel = $("#form_room");
+                    sel.empty();
+                    sel.append('<option value="null">Please Select</option>');
+                    $.each(response, function(key, value){
+                        sel.append('<option value="'+key+'">'+value+'</option>');
+                    });                    
+                }
+            });
+    });
+</script>

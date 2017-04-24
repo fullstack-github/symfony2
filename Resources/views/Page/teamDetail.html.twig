@@ -1,0 +1,31 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner about-banner">
+            <div class="container">
+                <div class="about-team">
+                    <h1>{{ team.name }}</h1>
+                    <ul>
+                        <li>
+                            {% set image = 'uploads/team/'~team.image %}
+                            <span><img src="{{ image | imagine_filter('thumb_113')}}" alt="" /></span>
+                            <p>{{team.description | raw }}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block orangestrip %}
+        {{ parent() }}
+    {% endblock orangestrip %}
+
+    {% block instantpreview %}
+        {{ parent() }}
+    {% endblock instantpreview %}
+
+    {% block whoisdusk %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

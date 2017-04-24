@@ -1,0 +1,36 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner about-banner">
+            <div class="container">
+                <div class="about-team">
+                    <h1>Dusk Team</h1>
+                    <ul>
+                        {% for team in objTeam %}
+                            <li>
+                                {% set image = 'uploads/team/'~team.image %}
+                                <span><a href="{{ path('dusk_team_detail', {'id' : team.id}) }}"><img src="{{ image | imagine_filter('thumb_113')}}" alt=""></a></span>
+                                <h2>{{team.name}}</h2><p>{{team.description | htmlentity(300) }}</p>
+                                <br /><a href="{{ path('dusk_team_detail', {'id' : team.id}) }}">More...</a>
+                            </li>        
+                        {% else  %}
+                            <li>No record found</li>      
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block orangestrip %}
+        {{ parent() }}
+    {% endblock orangestrip %}
+
+    {% block instantpreview %}
+        {{ parent() }}
+    {% endblock instantpreview %}
+
+    {% block whoisdusk %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

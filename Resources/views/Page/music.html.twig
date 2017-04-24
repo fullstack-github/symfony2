@@ -1,0 +1,51 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+
+        <div class="innerslider">
+            <ul class="slides">
+                {{ render(controller('DuskUserBundle:Default:innerBanner')) }}
+            </ul>
+        </div>
+
+        <section class="whitebg">
+            <div class="container">
+                <div class="midcontent">
+                   <div class="music-desktop">
+				   <p><img src="{{ asset('bundles/duskuser/images/music-desktop-img.png') }}" alt=""></p>
+				   <h1>Quality Music Fully Licensed</h1>				   
+				   <p>Our strong relationship with APRA/AMCOS and PPCA ensures all music used on this site is fully licensed and is used within full compliance of Australian Law and we at Dusk Music ensure all music used has been legally purchased through the most high quality sources available.</p></div>
+                </div>
+            </div>
+        </section>
+        {% block orangestrip %}
+            {{ parent() }}
+        {% endblock orangestrip %}
+
+        {% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %}
+
+        {% block whoisdusk %}
+            {{ parent() }}
+        {% endblock %}
+
+        {{ render(controller('DuskUserBundle:Default:partners')) }}
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(window).load(function() {
+            $('.innerslider').flexslider({
+                animation: "slide",
+                controlNav: true,
+                directionNav: false,
+                prevText: "",
+                nextText: "",
+            });
+        });
+    </script>
+{% endblock %}

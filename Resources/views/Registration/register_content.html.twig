@@ -1,0 +1,145 @@
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+    <div class="midcont">
+        {% if app.user %}
+        <div class="two-tab-title"> <span>Account Summary</span>
+            <ul>
+                <li><a href="#" class="active">Venues [0]</a></li>
+                <li><a href="#">Account Details</a></li>
+            </ul>
+        </div>
+        {% endif %}
+        <div class="tabsbox"> <span class="label">{% if app.user %}Status: {% if app.user %}Active{% else %}Inactive{% endif %}{% endif %}</span>
+            {% if app.user %}
+            <ul class="ulmenu">
+                <li><a href="#">My Account</a></li>
+                <li><a href="#">Overview</a></li>
+                <li><a href="#">Billing History</a></li>
+            </ul>
+            {% endif %}
+            <div class="tabsbox-content">
+                <div class="tabsbox-title"><span>Membership Details</span></div>
+                <ul class="cssform">
+                    <li>
+                        <label>First Name:*
+                        </label>
+                        {{ form_widget(form.firstname) }}{{ form_errors(form.firstname)}}
+                        <input type="hidden" name="promo" name="fos_user_registration_form[promo]" id="fos_user_registration_form_promo" value="{{promo}}" >
+                    </li>
+
+                    <li>
+                        <label>Last Name:*</label>
+                        {{ form_widget(form.lastname) }}{{ form_errors(form.lastname)}}
+                    </li>
+
+                    <li>
+                        <label>Email:*</label>
+                        {{ form_widget(form.email) }}{{ form_errors(form.email)}}
+                    </li>
+
+                    <li>
+                        <label>Company Name:*</label>
+                        {{ form_widget(form.company_name) }}{{ form_errors(form.company_name)}}
+                    </li>
+
+                    <li>
+                        <label>Country:*</label>
+                        {{ form_widget(form.country) }}{{ form_errors(form.country)}}
+                    </li>
+
+                    <li>
+                        <label>Address Line 1:*</label>
+                        {{ form_widget(form.address1) }}{{ form_errors(form.address1)}}
+                    </li>
+
+                    <li>
+                        <label>Address Line 2:</label>
+                        {{ form_widget(form.address2) }}{{ form_errors(form.address2)}}
+                    </li>
+                    <div id="states">
+                    <li>
+                        <label>State:*</label>
+                        {{ form_widget(form.state) }}{{ form_errors(form.state)}}
+                    </li>
+                    </div>
+
+                    <li>
+                        <label>Postcode/ZIP:*</label>
+                        {{ form_widget(form.zipcode) }}{{ form_errors(form.zipcode)}}
+                    </li>
+
+                    <li>
+                        <label>Phone contact 1:*</label>
+                        {{ form_widget(form.phone1) }}{{ form_errors(form.phone1)}}
+                    </li>
+
+                    <li>
+                        <label>Phone contact 2:*</label>
+                        {{ form_widget(form.phone2) }}{{ form_errors(form.phone2)}}
+                    </li>
+                </ul>
+                <div class="tabsbox-title"><span>Administrator Password Details</span></div>
+                <ul class="cssform">
+                    <li>
+                        <label>Username:*</label>
+                        {{ form_widget(form.username) }}{{ form_errors(form.username)}}
+                    </li>
+
+                    <li>
+                        <label>Password:*</label>
+                        {{ form_widget(form.plainPassword.first) }}
+                        {{ form_errors(form.plainPassword.first) }}
+                        <span class="min-text">Min 8 Characters</span>
+                    </li>
+                    <li>
+                        <label>Repeat Password:*</label>
+                        {{ form_widget(form.plainPassword.second) }}
+                        {{ form_errors(form.plainPassword.second) }}
+                        <span class="min-text">Min 8 Characters</span>
+                    </li>
+
+                    <li>{{ form_rest(form) }}</li>
+                    <li>
+                        <label>&nbsp;</label>
+                        <div class="show-div">
+                            <label>
+                                <input type="checkbox" name="" onclick="regPassword()" />
+                                Show Password
+                            </label>
+                            <a href="{{ path('fos_user_resetting_request')}}"><img src="{{ asset('bundles/duskuser/images/email-icon.png')}}" width="24" height="16" alt="">Resend Account Login</a>
+                        </div>
+                    </li>
+
+                    <li>
+                       <label>&nbsp;</label><button class="button">Submit</button>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $("#fos_user_registration_form_country").change(function() {
+        
+         var route = "{{ path('dusk_load_state', { 'id': 'PLACEHOLDER' }) }}";
+        
+         $.ajax({
+                type: "GET",
+                url: route.replace("PLACEHOLDER", this.value),
+                beforeSend: function() {
+                    
+                },
+                success: function(response) {
+
+                    var sel = $("#fos_user_registration_form_state");
+                    sel.empty();
+                    sel.append('<option value="null">Please Select</option>');
+                    $.each(response, function(key, value){
+                        sel.append('<option value="'+key+'">'+value+'</option>');
+                    })
+                    
+                }
+            });
+    });
+</script>
+    

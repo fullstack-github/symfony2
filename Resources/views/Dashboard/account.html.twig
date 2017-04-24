@@ -1,0 +1,152 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner dashboard-banner">
+            <div class="container white-bg">
+                <div class="content">
+                    <div class="title-div"><span>Member Dashboard</span></div>
+                    <div class="main-column"> 
+                        <!--Left Column-->
+                        <div class="column-left">
+                            <h1>MY ACCOUNT</h1>
+                            <!--Nav left-->
+                            {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                            <!--Ends-->
+                        </div>
+                        <!--Ends-->
+                        
+                        <div class="midcont">
+                            <div class="two-tab-title"> <span>Account Summary</span>
+                                <ul>
+                                    {% if is_granted('ROLE_ADMIN') %}<li><a href="{{ path('dusk_account') }}">Venues [{{ venueCount }}]</a></li>{% endif %}
+                                    <li><a class="active" href="{{ path('dusk_dashboard') }}" >Account Details</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tabvenue">
+                                <table>
+                                    <tr>
+                                        <th class="textleft">Venue Location</th>
+                                        <th width="50">Rooms</th>
+                                        <th width="75">Add Room</th>
+                                        <th width="50">Billing</th>
+                                        <th width="50">Status</th>
+                                    </tr>
+                                    {% if venueDetails is not empty %}
+                                    
+                                    {% for venue_key, venue in venueDetails %}
+                                        <tr class="venue-title">
+                                            <td colspan="3"><span class="venue-name">{{ venue.name }}</span></td>
+                                            <td colspan="2"><span class="hide-details">-  Hide Details</span></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>{{ venue.name }}</td>
+                                            <td class="textcenter">{{ venue.rooms }}</td>
+                                            <td class="textcenter"><a href="{{ path('dusk_room_new', {'id': venue.id}) }}"><img src="{{ asset('bundles/duskuser/images/pluse-icon.png') }}" width="19" height="20" alt=""></a></td>
+                                            <td class="textcenter"><a href="{{ path('dusk_venue_detail', {'id': venue.id}) }}">View</a></td>
+                                            <td>
+                                                <a href="{{ path('dusk_venue_activation', {'id':venue.id}) }}" {% if venue.is_active %}class="conf-btn-active"{% else %}class="conf-btn"{% endif %}>&nbsp;</a>
+                                                <a href="{{ path('dusk_venue_activation', {'id':venue.id}) }}" {% if not venue.is_active %}class="cencal-btn-active"{% else %}class="cencal-btn"{% endif %}>&nbsp;</a>
+                                            </td>
+                                        </tr>
+                                        {% set venueCount = 1 %}
+                                        
+                                        {% if venue.room_details is defined %}
+                                            {% set roomCount = 1 %}
+                                            {% for room_key, room in venue.room_details %}
+                                                <tr>
+                                                    <td class="space" colspan="5">
+                                                        <div class="venue-title1"><span>Venue{{ venueCount }} - Room{{ roomCount }}</span></div>
+                                                        <div class="tabvenue-content">
+                                                            {% if forms[venue.id][room.id]['form'] %}
+                                                                {% set form = forms[venue.id][room.id]['form'] %}
+
+                                                                <form action="{{ path('dusk_room_update', {'id': room.id}) }}" {{ form_enctype(form) }} method="POST">
+                                                                    <div class="row">
+                                                                        <p class="text-left">
+                                                                            {{ form_widget(form.name, { 'attr': {'placeholder': "eg. Dining Room"} }) }}{{ form_errors(form.name)}}
+                                                                            <a href="{{ path('dusk_resend_account_login', {'id': room.id})}}" class="email-text">
+                                                                                <img src="{{ asset('bundles/duskuser/images/email-icon.png') }}" width="24" height="16" alt="">
+                                                                                Resend Account Login
+                                                                            </a>
+                                                                        </p>
+
+                                                                        <span class="btndiv"> 
+                                                                            {% if room.is_active and date(room.expires_at) > date() %}
+                                                                                <span class="conf-btn-active"></span>
+                                                                            {% else %}
+                                                                                {% if date(room.expires_at) < date() %}
+                                                                                    <a href="javascript:alert('Your Current Subscription is Expired');" class="conf-btn">&nbsp;</a>
+                                                                                {% else %}
+                                                                                    <a href="{{ path('dusk_room_activation', {'id': room.id })}}" class="conf-btn">&nbsp;</a>
+                                                                                {% endif %}
+                                                                                
+                                                                            {% endif %}
+                                                                            
+                                                                            {% if not room.is_active or date(room.expires_at) < date() %}
+                                                                                <span class="cencal-btn-active"></span>
+                                                                            {% else %}
+                                                                                <a href="{{ path('dusk_room_activation', {'id': room.id })}}" class="cencal-btn">&nbsp;</a>
+                                                                            {% endif %}
+                                                                        </span>
+                                                                    </div>
+                                                                    
+                                                                    {% if room.is_active and date(room.expires_at) > date() %}
+                                                                        <h2>Your Current Subscription Expires On <span>{{ room.expires_at | date('d/m/Y')}}</span></h2>
+                                                                    {% else %}
+                                                                        <h2>Your Current Subscription is Expired On <span>{{ room.expires_at | date('d/m/Y')}}</span></h2>
+                                                                    {% endif %}
+                                                                        
+                                                                    <div class="leftbox">
+                                                                        {{ form_widget(form.subscription) }}{{ form_errors(form.subscription)}}
+                                                                    </div>
+                                                                    <div class="rightbox">
+                                                                        <p>
+                                                                            <label>Username:</label>
+                                                                            {{ form_widget(form.username, { 'attr': {'placeholder': "dan@duskmusic.com"} }) }}{{ form_errors(form.username)}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <label>Password:</label>
+                                                                            {{ form_widget(form.password, { 'attr': {'placeholder': "********"}}) }}{{ form_errors(form.password)}}
+                                                                        </p>
+                                                                        <p>
+                                                                            <label class="show-password">
+                                                                                <input type="checkbox"  name="" onclick="toggleUPassword()"/>
+                                                                                Show Password</label>
+                                                                        </p>
+                                                                        <p>
+                                                                            <input type="submit" class="submit-btn" value="Update" />
+                                                                        </p>
+                                                                    </div>
+                                                                    {{ form_rest(form) }}
+                                                                </form>
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% set roomCount = roomCount  + 1 %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% set venueCount = venueCount  + 1 %}
+                                    {% endfor %}
+                                    {% else %}
+                                               <p class="msg-text">Click My Venue to add Venues and Rooms.</p>
+                                    {% endif %}
+                                    <tr>
+                                        <td colspan="5" class="textright space"><div class="rowdiv">Have a Question? <a href="#" title="Contact Us">Contact Us</a></div></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Right Column-->
+                {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+                <!--Ends--> 
+            </div>
+        </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

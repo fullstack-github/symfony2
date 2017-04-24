@@ -1,0 +1,67 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>Subscribe</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box myroom-detail">
+                    <div class="myrooms-title1">
+                        <span class="addavenue">
+                            <a href="{{ path('dusk_venue_new')}}">ADD A VENUE <img src="{{ asset('bundles/duskuser/images/pluse-icon.png') }}" width="19" height="20" alt=""></a>
+                        </span>
+                        <span>ACTIVE Venues [{{ active }}]</span> <span>EXPIRED Venues [{{ inactive }}]</span>
+                    </div>
+                    <div class="midcont">
+                        <form action="{{ path('dusk_venue_new') }}" {{ form_enctype(form) }} method="POST">
+                            <div class="tabsbox">
+                                <div cl1ass="midcont">
+                                    <div class="tabsbox-title"><span>New Venue</span></div>
+                                    <ul class="cssform">
+                                        <li>
+                                            <label>Name:*</label>
+                                            {{ form_widget(form.name) }}{{ form_errors(form.name)}}
+                                        </li>
+                                        <li>
+                                            <label>Active:</label>
+                                            {{ form_widget(form.is_active) }}{{ form_errors(form.is_active)}}
+                                            {{ form_rest(form) }}
+                                        </li>
+                                        <li><label>&nbsp;</label>
+                                            <button class="button">Submit</button>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        
+<!--Right Column-->
+<div class="column-right">
+    <div class="right-img">
+        <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+        <p><img src="{{ asset('bundles/duskuser/images/right-side-logo.jpg')}}" width="248" height="213" alt=""></p>
+        <!--<p><img src="{{ asset('bundles/duskuser/images/img7.jpg')}}" width="248" height="213" alt=""></p>
+        <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>-->
+    </div>
+</div>
+<!--Ends--> 
+{{ include('DuskUserBundle:Common:rooms.html.twig') }}
+</div>
+</div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

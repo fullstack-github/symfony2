@@ -1,0 +1,40 @@
+<div class="mymusic-title">
+    <p class="save-text">
+{#        <a href="javascript:void(0);">Click to Play</a>#}
+        Click to Play
+    </p>
+    {{ currentRoom.name }}&nbsp;music library [{% if details['albumCount'] is not empty %}{{ details['albumCount'] }}{% else %}0{% endif %}]
+</div>
+<div class="mymusic-list">
+<ul>
+    {% if myalbums is not empty %}
+    {% for album in myalbums %}
+        <li>
+            <div class="listleft">
+                <span><img src="{{ asset('uploads/album/'~album.image) }}" width="40" height="40" alt=""></span><span>{{ album.title }} - {{ album.author }}</span>
+            </div>
+            <div class="listright">
+                <a href="javascript:void(0);" onclick="playAlbum({{ album.id }})">
+                    <img class="imgleft" src="{{ asset('bundles/duskuser/images/play-btn.png') }}" width="26" height="26" alt="">
+                </a>
+                <span class="time">
+                    {% set time = duration[album.id]['time'] | split(':') %}
+                    {% if (time[0]/24) != 0 %}
+                        {{ (time[0]/24) | number_format(0) }}d
+                        {{ time[0]%24 }}h
+                        {{ time[1] }}m
+                    {% else %}
+                        {{ time[0]%24 }}h
+                        {{ time[1] | number_format(0) }}m
+                        {{ time[2] }}s
+                    {% endif %}
+                </span>
+                <a href="javascript:void(0);" onclick="removeAlbum({{ album.id }})"><img class="imgright" src="{{ asset('bundles/duskuser/images/cencal-btn.png') }}" width="19" height="20" alt=""></a>
+            </div>
+        </li>
+    {% endfor %}
+    {% else %}
+        <li>No Playlist found.</li>
+    {% endif %}
+</ul>
+</div>

@@ -1,0 +1,29 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner about-dusk-banner">
+            <div class="container">
+                <div class="about-dusk">
+                    
+                    <div class="contdiv">
+                        comming soon...
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        {% block orangestrip %}
+            {{ parent() }}
+        {% endblock orangestrip %}
+
+        {% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %}
+
+        {% block whoisdusk %}
+            {{ parent() }}
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

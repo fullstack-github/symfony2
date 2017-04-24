@@ -1,0 +1,86 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>Subscribe</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+
+
+                <div class="myrooms-box myroom-detail">
+                    <div class="myrooms-title"><span>Edit Room</span> - Venue {{ room.venue.name }}</div>
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div class="flash-notice">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    <form action="{{ path('dusk_room_detail', {'id': room.id}) }}" {{ form_enctype(form) }} method="POST">
+
+                        <div class="myrooms-text">
+                            <ul>
+                                <li>
+                                    <p class="name-room">
+                                        <label><strong>Name this Room</strong></label>
+                                        {{ form_widget(form.name, { 'attr': {'placeholder': "eg. Dining Room"} }) }}{{ form_errors(form.name)}}
+                                    </p>
+                                </li>
+                                <li>
+                                    <h2>SELECT YOUR SUBSCRIPTION FOR THIS ROOM</h2>
+                                    <div class="leftbox">
+                                        {{ form_widget(form.subscription) }}{{ form_errors(form.subscription)}}
+                                    </div>
+                                    <div class="rightbox">
+                                        <p>
+                                            <label>Email:</label>
+                                            {{ form_widget(form.username, { 'attr': {'placeholder': "dan@duskmusic.com"} }) }}{{ form_errors(form.username)}}
+                                        </p>
+                                        <p>
+                                            <label>Password:</label>
+                                            {{ form_widget(form.password, { 'attr': {'placeholder': "********"}}) }}{{ form_errors(form.password)}}
+                                        </p>
+                                        <p>
+                                            <label class="show-password">
+                                                <input type="checkbox"  name="" onclick="toggleUPassword()"/>
+                                                Show Password</label>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h2>YOUR SUBSCRIPTION WILL EXPIRED ON THE <span>{{ room.expiredAt | date('d/m/Y')}}</span></h2>
+                                    
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="proceed-checkout">
+                            {{ form_rest(form) }}
+                            <p>
+                                <input type="submit" class="submit-btn" value="Submit" />
+                            </p>
+                            <p><a href="{{ path('dusk_remove_room', {'id': room.id}) }}" onclick="return confirm('Are you sure?')"><img src="{{ asset('bundles/duskuser/images/cencal-btn.png') }}" width="19" height="20" class="floatleft" alt=""> Cancel this Room</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends-->
+        {{ render(controller('DuskUserBundle:Album:index')) }}
+        {% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %}
+    </div>
+</div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}

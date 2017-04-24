@@ -1,0 +1,32 @@
+<div class="imgdiv">
+    {% for album in albums %}
+        {% set image = 'uploads/album/'~album.image %}
+        <div class="play-boximg">
+		<img src="{{ image | imagine_filter('thumb_213x248') }}" alt="" title="{{ album.title}}" height="213" width="248">
+        <div id="jquery_jplayer_{{ album.id }}"></div>
+		<img src="{{ asset('bundles/duskuser/images/pluse-icon-1.png')}}" width="26" height="26" class="pluse-icon" alt="" />
+        <div id="{{ album.id }}albm" class="play-music">            
+            <h1>{{ album.title|length > 20 ? album.title|slice(0, 20) ~ '...' : album.title  }}</h1>
+            <p>{{ album.desc }}</p>
+
+            <div class="music-control" id="jp_container_{{ album.id }}">
+                <div class="control-icons">
+                    <span><a href="javascript:void(0);" onclick="pauseHomeAlbum({{ album.id }})"><img src="{{ asset('bundles/duskuser/images/pause-icon.png') }}" alt="" width="27" height="27" class="img"></a></span>
+                    <span><a href="javascript:void(0);" onclick="playHomeAlbum({{ album.id }})"><img src="{{ asset('bundles/duskuser/images/play-icon.png') }}" alt="" width="38" height="38"></a></span>
+                    <span><a href="javascript:void(0);" onclick="stopHomeAlbum({{ album.id }})"><img src="{{ asset('bundles/duskuser/images/stop-icon.png') }}" alt="" width="27" height="27" class="img"></a></span>
+                </div>
+                <span class="cont-text">Play Sample<br />
+                    {% set time = duration[album.id]['time'] | split(':') %}
+                    {% if time[0] != 0 %}
+                        {{ time[0] }} h
+                    {% endif %}
+                    {% if time[1] != 0 %}
+                        {{ time[1] }} m
+                    {% endif %}                                    
+                    {{ time[2] }} secs
+                                    
+                </span>
+            </div>
+        </div></div>
+    {% endfor %}
+</div>

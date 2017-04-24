@@ -1,0 +1,77 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    
+                    <h1><span>{% if details['currentVenue'] is not empty %}{{ details['currentVenue'].name }}{% else %}No venue Selected{% endif %}</span></h1>
+                    {% if details['activeVenueCount'] > 1 %}
+                    <p>
+                        <select id="venues" class="change-benue">
+                            <option value=0>PLEASE SELECT [{{ details['activeVenueCount'] }}]</option>
+                            {% for venue in venues %}
+                                {% if venue.isActive %}
+                                    <option value="{{ venue.id }}">{{ venue.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    {% endif %}
+                    
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box">
+                        {% if venues is not empty %}
+                            {% include "FOSUserBundle:Music:player.html.twig" %}
+                            <br />
+                            
+                            <p class="msg-text">
+                                {% for flashMessage in app.session.flashbag.get('notice') %}
+                                    {% if flashMessage is not null %}<b>{{ flashMessage }}</b>{% endif %}
+                                {% endfor %}
+                                <br />
+                                Please select your Venue first from the Venues menu before selecting your 'Music Stream'.
+                           </p>
+                        {% else %}
+                           <br />
+                           <p class="msg-text">Please add venue first.</p>
+                        {% endif %}
+                        
+                        
+                       
+
+                </div>
+            </div>
+        </div>
+        <!--Right Column-->
+        {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+        <!--Ends-->
+        <div class="instantlyslider">
+        {{ render(controller('DuskUserBundle:Album:index')) }}
+        {#% block instantpreview %}
+            {{ parent() }}
+        {% endblock instantpreview %#}
+        </div>
+    </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#venues').change(function() {
+                var route = "{{ path('dusk_change_venue', { 'id': "PLACEHOLDER" }) }}";
+                window.location = route.replace("PLACEHOLDER", $('#venues').val());
+            });
+        });
+    </script>
+{% endblock %}

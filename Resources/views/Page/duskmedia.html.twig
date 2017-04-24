@@ -1,0 +1,51 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+    {% block fos_user_content %}
+        <div class="banner about-banner">
+            <div class="container">
+                <div class="about-team">
+                    <h1>Dusk Media</h1>
+                    <ul>
+                        {% for record in pagination %}
+                            <li>
+                                <span>
+                                    <a href="{{ path('dusk_media_detail', {'id': record.id}) }}">
+                                        {% set image = 'uploads/media/'~record.image %}
+                                        <img src="{{ image | imagine_filter('thumb_113')}}" alt="" />
+                                    </a>
+                                </span>
+                                
+                                <p>
+                                    <span class="name"><a href="{{ path('dusk_media_detail', {'id': record.id}) }}">{{ record.title }}</a><br />
+                                        <span class="date">{{ record.releasedDate | date('m.d.y')}}</span>
+                                    </span>
+                                </p>
+                                <p>{{ record.description | raw }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+            
+                    <div class="pagingdiv">
+                        <ul>
+                            <div class="navigation">
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block orangestrip %}
+        {{ parent() }}
+    {% endblock orangestrip %}
+
+    {% block instantpreview %}
+        {{ parent() }}
+    {% endblock instantpreview %}
+
+    {% block whoisdusk %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    {#<h1>UPPER DECK<span>DUSK SUPERYACHT</span></h1>
+                    <p>
+                        <select id="venues" onchange="loadVenues(this.value)">
+                            <option value=0>Change Venue [{{ venueCount }}]</option>
+                            {% for venue in venues %}
+                            <option value="{{ venue.slug }}">{{ venue.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </p>#}
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box">
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div class="flash-notice">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="myrooms-box">
+                        <div class="myrooms-list">
+                            <ul>
+                                {% if playlists is not null %}
+                                    {% for playlist in playlists %}
+                                        <li>
+                                            <a href="{{ path('dusk_playlist_play', {'id':playlist.id}) }}">{{ playlist.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Right Column-->
+        <div class="column-right">
+            <div class="right-img">
+                <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/right-side-logo.jpg')}}" width="248" height="213" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/img7.jpg')}}" width="248" height="213" alt=""></p>
+                <p><img src="{{ asset('bundles/duskuser/images/bar-nightclubs-img.png')}}" width="248" height="212" alt=""></p>
+            </div>
+        </div>
+        <!--Ends-->
+            {{ include('DuskUserBundle:Common:rooms.html.twig') }}
+    </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/duskuser/css/jplayer.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ asset('bundles/duskuser/css/jplayer.monday.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.jplayer.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jplayer.playlist.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/prettify.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $("#jquery_jplayer_1").jPlayer({
+                ready: function () {
+                   $(this).jPlayer("setMedia", {
+{#                   mp3: "http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3"#}
+               }).jPlayer("play");
+                },
+                ended: function (event) {
+               $(this).jPlayer("play");
+                },
+                swfPath: "../bundles/duskuser/js",
+                supplied: "mp3"
+           });
+           
+        });
+        
+        function playTrack(audio, title) {
+            $("#jquery_jplayer_1").jPlayer("setMedia", {
+                mp3: "{{ asset('/uploads/track/audio/') }}"+audio,
+            });
+            $("#jquery_jplayer_1").jPlayer("play");
+    
+            $(".jp-title ul li").html(title);
+            $("#jquery_jplayer_1").jPlayer("play");
+            return true;
+        }
+        
+        function stopTrack() {
+            $("#jquery_jplayer_1").jPlayer("stop");
+            return true;
+        }
+       
+
+        function loadVenues(venue) {
+            if (venue != 0) {
+                var route = "{{ path('dusk_music_venue', { 'slug': "PLACEHOLDER" }) }}";
+                window.location = route.replace("PLACEHOLDER", venue);
+            }
+        }
+    </script>
+{% endblock %}

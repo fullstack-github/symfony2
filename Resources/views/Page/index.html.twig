@@ -1,0 +1,17 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+{% block slider %}
+    {% if pageroute == 'about' %}
+        <div class="banner about-dusk-banner">
+            <div class="container">
+            <div class="about-dusk">
+              <div class="logodiv"><img src="{{ asset('bundles/duskuser/images/puskmusic-img.png') }}" width="151" height="198" alt=""></div>
+              <div class="contdiv">
+                <h1>About Dusk</h1>
+                {{pageContent}}
+              </div>
+              <div class="imgdiv"><img src="{{ asset('bundles/duskuser/images/img1.jpg') }}" width="248" height="213" alt=""><img src="{{ asset('bundles/duskuser/images/img2.jpg') }}" width="248" height="213" alt=""></div>
+            </div>
+          </div>
+       </div>
+    {% endif %}
+{% endblock %}

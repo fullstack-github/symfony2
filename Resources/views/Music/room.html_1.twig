@@ -1,0 +1,314 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>
+                        {% if details['currentRoom'] is not empty %}{{ details['currentRoom'].name }}{% else %}No Room Selected{% endif %}<br/>
+                        <span>{% if details['currentVenue'] is not empty %}{{ details['currentVenue'].name }}{% else %}No venue Selected{% endif %}</span>
+                    </h1>
+                    {% if details['activeRoomCount'] > 1 %}
+                    <p>
+                        <select id="rooms" class="change-benue">
+                            <option value=0>Please Select [{{ details['activeRoomCount'] }}]</option>
+                            {% for room in venue.rooms %}
+                                {% if room.isActive %}
+                                    <option value="{{ room.id }}">{{ room.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    {% endif %}
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box venue-box">                    
+                    <!-- <div class="titlelist-right"> -->
+                        <div id="jquery_jplayer_1"></div>
+<div id="jp_container_1" class="jp-audio">
+    <div class="jp-type-single">
+        <div class="jp-gui jp-interface">
+            <ul class="jp-controls">
+                
+                <li><img src="{{ asset('bundles/duskuser/images/pause-icon.png') }}" alt="" width="27" height="27" onclick="pauseAlbum()" ></li>
+                <li><img src="{{ asset('bundles/duskuser/images/play-icon.png') }}" alt="" width="38" height="38" onclick="playIt()"></li>
+                <li><img src="{{ asset('bundles/duskuser/images/stop-icon.png') }}" alt="" width="27" height="27" onclick="stopAlbum()"></li>
+                <li><img src="{{ asset('bundles/duskuser/images/sound-icon.png') }}" width="16" height="16" alt="" onclick="unmuteAlbum()"></li>
+                <li><img src="{{ asset('bundles/duskuser/images/sound-icon.png') }}" width="16" height="16" alt=""></li>
+                <li><a title="max volume" tabindex="1" class="jp-volume-max" href="javascript:void(0);">max volume</a></li>
+            </ul>
+            <div class="jp-progress">
+                <div class="jp-seek-bar" style="width: 0%;">
+                    <div class="jp-play-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="jp-volume-bar">
+                <div class="jp-volume-bar-value" style="width: 0%;"></div>
+            </div>
+            <div class="jp-time-holder">
+                <div class="jp-current-time"></div>
+                <div class="jp-duration"></div>
+
+                <ul class="jp-toggles">
+                    <li><a id="repeat" title="repeat" tabindex="1" class="jp-repeat" href="javascript:void(0);" style="display: none;">repeat</a></li>
+                    <li><a id="norepeat" title="repeat off" tabindex="1" class="jp-repeat-off" href="javascript:void(0);">repeat off</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="jp-title">
+            <ul>
+                <li>No album selected</li>
+            </ul>
+        </div>
+        
+    </div>
+</div>
+                        
+                    <!-- </div> -->
+
+                    <div id="albumlist" class="mymusic-box">
+                        <div class="mymusic-title">
+                            <p class="save-text">
+                                <a href="javascript:void(0);">Click to Play</a>
+                            </p>
+                            {{ currentRoom.name }}&nbsp;music library [{% if details['albumCount'] is not empty %}{{ details['albumCount'] }}{% else %}0{% endif %}]
+                        </div>
+                        <div class="mymusic-list">
+                            <ul>
+                                {% if myalbums is not empty %}
+                                {% for album in myalbums %}
+                                    <li>
+                                        <div class="listleft">
+                                            <span><img src="{{ asset('uploads/album/'~album.image) }}" width="40" height="40" alt=""></span><span>{{ album.title }} - {{ album.author }}</span>
+                                        </div>
+                                        <div class="listright">
+                                            <a href="javascript:void(0);" onclick="playAlbum({{ album.id }})">
+                                                <img class="imgleft" src="{{ asset('bundles/duskuser/images/play-btn.png') }}" width="26" height="26" alt="">
+                                            </a>
+                                            <span class="time">
+                                                {% set time = duration[album.id]['time'] | split(':') %}
+                                                    {{ (time[0]/24) | number_format(0) }}d
+                                                    {{ time[0]%24 }}h
+                                                    {{ time[1] }}m
+                                            </span>
+                                            <a href="javascript:void(0);" onclick="removeAlbum({{ album.id }})"><img class="imgright" src="{{ asset('bundles/duskuser/images/cencal-btn.png') }}" width="19" height="20" alt=""></a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                                {#{% else %}
+                                    <li>No album found.</li>#}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!--Right Column-->
+        <div class="column-right">
+            <div class="right-img">
+                <p id='current-playing'>
+                    <img src="{{ asset('bundles/duskuser/images/img7.jpg')}}" width="248" height="213" alt="">
+                </p>
+                <p><div class='droppable'>
+                    <img src="{{ asset('bundles/duskuser/images/drag-and-drop-img.jpg')}}" width="248" height="213" alt="">
+                </div></p>
+            </div>
+        </div>
+        <!--Ends-->
+        
+        <div class="add-title"> <span class="left"><a href="#">&laquo;</a></span> <span class="right"><a href="#">&raquo;</a></span> Add a little more flavour to your room</div>
+        <div class="whoexactly">
+            <ul>
+                {% for album in albums %}
+                    {% set image = 'uploads/album/'~album.image %}
+                    <li id="{{ album.id }}" class="draggable">
+                        <img src="{{ image | imagine_filter('thumb_213x248') }}" alt="{{ album.id }}"/>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/duskuser/css/jquery.ui.all.css') }}">
+    <style>
+	.draggable { float: left; }
+	.droppable { width: 248px; height: 213px; float: left; }
+    </style>
+    
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    	<script src="{{ asset('bundles/duskuser/js/jquery.ui.core.min.js') }}"></script>
+        <script src="{{ asset('bundles/duskuser/js/jquery.ui.widget.js') }}"></script>
+        <script src="{{ asset('bundles/duskuser/js/jquery.ui.mouse.js') }}"></script>
+        <script src="{{ asset('bundles/duskuser/js/jquery.ui.droppable.js') }}"></script>
+        <script src="{{ asset('bundles/duskuser/js/jquery.ui.draggable.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var albumID = 0;
+        $("#jquery_jplayer_1").jPlayer({
+            ready: function() {
+                $(this).jPlayer("setMedia", {
+                }).jPlayer("play");
+            },
+            ended: function(event) {
+                $(this).jPlayer("play");
+            },
+            
+            swfPath: "../bundles/duskuser/js",
+            supplied: "mp3",
+        });
+        
+        var cssSelector = {
+            jPlayer: "#jquery_jplayer_1",
+            cssSelectorAncestor: "#jp_container_1"
+        };
+        
+        
+           
+    });
+    
+    var pauseFlag = '';
+    function stopAlbum() {
+        $("#jquery_jplayer_1").jPlayer("stop");
+        pauseFlag = '';
+        
+    }
+    
+    function pauseAlbum() {
+        $("#jquery_jplayer_1").jPlayer("pause");
+        pauseFlag = albumID;
+    }
+    
+    function playIt() {
+        $("#jquery_jplayer_1").jPlayer("play");
+    }
+    
+    function muteAlbum() {
+        $("#jquery_jplayer_1").jPlayer("mute");
+        $(".home-mute").hide();
+        $(".home-unmute").show();
+    }
+    function unmuteAlbum() {
+        $("#jquery_jplayer_1").jPlayer("unmute");
+        $(".home-mute").show();
+        $(".home-unmute").hide();
+    }
+    
+        $(document).ready(function() {
+
+            {#{% if details['currentRoom'] is not empty %}
+                $('#rooms').val({{ details['currentRoom'].id }})
+            {% endif %}#}
+
+            $('#rooms').change(function() {
+                var route = "{{ path('dusk_change_room', { 'id': "PLACEHOLDER" }) }}";
+                window.location = route.replace("PLACEHOLDER", $('#rooms').val());
+            });
+        });
+        
+        $(function() {
+            $( ".draggable" ).draggable({ helper: "clone", refreshPositions: true });
+            $( ".droppable" ).droppable({
+                drop: function( event, ui ) {
+                    var albumId = $(ui.draggable).attr("id");
+                    var roomId = {{ app.request.get('id') }};
+                    var aroute = "{{ path('dusk_add_album_room', { 'albumId': "PLACEHOLDER1", 'roomId': "PLACEHOLDER2" }) }}";
+                    aroute = aroute.replace("PLACEHOLDER1", albumId);
+                    aroute = aroute.replace("PLACEHOLDER2", roomId);
+                    
+                    $.ajax({
+                    type: "GET",
+                    url: aroute,
+                    success: function (response) {
+                        updateAlbumList(roomId);
+                        alert(response);
+                    }
+                });
+                }
+            });
+           });
+           
+        function removeAlbum(albumId) {
+            var roomId = {{ app.request.get('id') }};
+            
+            var route = "{{ path('dusk_remove_track', { 'albumId': "PLACEHOLDER1", 'roomId': "PLACEHOLDER2" }) }}";
+            route = route.replace("PLACEHOLDER1", albumId);
+            postUrl = route.replace("PLACEHOLDER2", roomId);
+            
+            $.ajax({
+                type: "GET",
+                url: postUrl,
+                beforeSend: function() {
+                },
+                success: function(response) {
+                    updateAlbumList(roomId);
+                    alert(response);
+                }
+            });
+        }
+           
+        function updateAlbumList(roomId) {
+            var update_route = "{{ path('dusk_update_album_list', { 'id': "PLACEHOLDER" }) }}";
+            update_route = update_route.replace("PLACEHOLDER", roomId);
+            
+            $.ajax({
+                type: "GET",
+                url: update_route,
+                success: function (response) {
+                    $('#albumlist').html(response);
+                }
+            });
+        }
+
+        function playAlbum(id) {
+
+            var cssSelector = {
+                jPlayer: "#jquery_jplayer_1",
+                cssSelectorAncestor: "#jp_container_1"
+            };
+            var myPlaylist = new jPlayerPlaylist(cssSelector);
+
+            var route = "{{ path('dusk_add_tracks', { 'id': "PLACEHOLDER" }) }}";
+            postUrl = route.replace("PLACEHOLDER", id);
+
+            $.ajax({
+                type: "GET",
+                url: postUrl,
+                beforeSend: function() {
+                },
+                success: function(tracks) {
+                    $.each(tracks, function(i, track) {
+                        myPlaylist.add({
+                            title: track.title,
+                            artist: track.artist,
+                            mp3: "/uploads/track/audio/" + track.audio,
+                        });
+                    });
+                    
+                    $(".jp-title").css('display', 'block');
+                    $("#jquery_jplayer_1").jPlayer("play");
+{#                    myPlaylist.shuffle(true);#}
+                    $("#current-playing").html($('#'+id).html());                    
+                    albumID = id;
+                }
+            });
+{#            $("#jquery_jplayer_1").jPlayer("play");#}
+        }       
+        
+    </script>
+{% endblock %}

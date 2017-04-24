@@ -1,0 +1,67 @@
+<section class="greybg">
+    <div class="container">
+        <h1 class="title">Instantly Preview some of our Music Styling</h1>
+        <div class="instantly-carousel">
+            <ul id="foo2">
+
+                {% for album in albums %}
+                    <li>
+                        {% set image = 'uploads/album/'~album.image %}
+                        <img src="{{ image | imagine_filter('thumb_248x213') }}" alt="" title="{{ album.title}}" width="240" height="210">
+                        <span>{{ album.title}}</span>
+                        <div id="jquery_jplayer_{{ album.id }}"></div>
+                        <img src="{{ asset('bundles/duskuser/images/pluse-icon-1.png')}}" width="26" height="26" class="pluse-icon" alt="" />
+                        <div class="play-music" id="{{album.id}}albm">
+                            <h1>{{ album.title|length > 20 ? album.title|slice(0, 20) ~ '...' : album.title  }}</h1>
+                            <p>{{ album.desc | htmlentity(50) }}</p>
+                            <div class="music-control" id="jp_container_{{ album.id }}">
+                                <div class="control-icons">
+                                    <span><a href="javascript:void(0);" onclick="pauseHomeAlbum({{ album.id }})"><img src="{{ asset('bundles/duskuser/images/pause-icon.png') }}" alt="" width="27" height="27" class="img"></a></span>
+                                    <span><a href="javascript:void(0);" onclick="playHomeAlbum({{ album.id }})"><img src="{{ asset('bundles/duskuser/images/play-icon.png') }}" alt="" width="38" height="38"></a></span>
+                                    <span><a href="javascript:void(0);" onclick="stopHomeAlbum({{ album.id }})"><img src="{{ asset('bundles/duskuser/images/stop-icon.png') }}" alt="" width="27" height="27" class="img"></a></span>
+                                </div>
+                                <span class="cont-text">Play Sample<br />
+                                    
+                                    {% set time = duration[album.id]['time'] | split(':') %}
+                                    {% if (time[0]/24) != 0 %}
+                                        {{ (time[0]/24) | number_format(0) }}d
+                                        {% if time[0] != 0 %}
+                                            {{ time[0] }} h
+                                        {% endif %}
+                                        {% if time[1] != 0 %}
+                                            {{ time[1] }} m
+                                        {% endif %}                                    
+                                    {% else %}
+                                        {{ time[0]%24 }}h
+                                        {% if time[1] != 0 %}
+                                            {{ time[1] | number_format(0) }}m
+                                        {% endif %}                                    
+                                        {{ time[2] }}s
+                                    {% endif %}
+                                </span>                                
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="clearfix"></div>
+            <a id="prev2" class="prev" href="#">&nbsp;</a> <a id="next2" class="next" href="#">&nbsp;</a> </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function() {
+        {% for album in albums %}                        
+            $("#jquery_jplayer_{{ album.id }}").jPlayer({
+                ready: function() {
+                    $(this).jPlayer("setMedia", {
+                    }).jPlayer("play");
+                },
+                ended: function(event) {
+                    $(this).jPlayer("play");
+                },
+                swfPath: "../bundles/duskuser/js",
+                supplied: "mp3"
+            });
+        {% endfor %}
+    });
+</script>

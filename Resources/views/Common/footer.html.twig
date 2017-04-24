@@ -1,0 +1,80 @@
+<footer>
+    <div class="container">
+    
+    {% if app.request.attributes.get('_route') == "dusk_user_homepage" or 
+            app.request.attributes.get('_route') == "dusk_about" or 
+            app.request.attributes.get('_route') == "dusk_howitworks" or 
+            app.request.attributes.get('_route') == "dusk_duskteam" or
+            app.request.attributes.get('_route') == "dusk_media" or 
+            app.request.attributes.get('_route') == "dusk_contactus" or 
+            app.request.attributes.get('_route') == "dusk_invite_friend" or 
+            app.request.attributes.get('_route') == "dusk_help" or 
+            app.request.attributes.get('_route') == "dusk_media_detail"
+            
+    %}
+        {{ render(controller('DuskUserBundle:Default:partners')) }}
+    {% endif %}
+{#        <div class="dusk-partners">#}
+                {#<li><a href="#"><img src="{{ asset('bundles/duskuser/images/dusk-partners-logo1.png') }}" alt=""></a></li>
+                <li><a href="#"><img src="{{ asset('bundles/duskuser/images/dusk-partners-logo2.png') }}" alt=""></a></li>
+                <li><a href="#"><img src="{{ asset('bundles/duskuser/images/dusk-partners-logo3.png') }}" alt=""></a></li>
+                <li><a href="#"><img src="{{ asset('bundles/duskuser/images/dusk-partners-logo4.png') }}" alt=""></a></li>
+                <li><a href="#"><img src="{{ asset('bundles/duskuser/images/dusk-partners-logo5.png') }}" alt=""></a></li>#}
+{#        </div>#}
+        <div class="footer-link">
+            <ul>
+                <li>
+                    <h2>Main Navigation</h2>
+                    <ul>
+                        <li><a href="{{ path('dusk_user_homepage')}}">Home</a></li>
+                        <li><a href="{{ path('dusk_music')}}">Music</a></li>
+                        <li><a href="{{ path('dusk_pricing')}}">Pricing</a></li>
+                        <li><a href="{{ path('dusk_contactus')}}">Contact Us</a></li>
+                        <li><a href="{{ path('dusk_blog')}}">Blog</a></li>
+                        {% if app.user %}
+                        <li><a href="{{ path('fos_user_security_logout')}}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{{ path('fos_user_security_login')}}">Member Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li>
+                    <h2>About</h2>
+                    <ul>
+                        <li><a href="{{ path('dusk_about') }}">About Dusk</a></li>
+                        <li><a href="{{ path('dusk_howitworks') }}">How it Works</a></li>
+                        <li><a href="{{ path('dusk_duskteam') }}">Dusk Team</a></li>
+                        <li><a href="{{ path('dusk_media') }}">Dusk Media</a></li>
+                        <li><a href="{{ path('dusk_testimonials') }}">Testimonials</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h2>Featured Categories</h2>
+                    <ul>
+                        <li><a href="{{ path('dusk_about')}}">Home About Dusk</a></li>
+                        <li><a href="{{ path('dusk_howitworks')}}">How It Works</a></li>
+                        <li><a href="{{ path('dusk_music')}}">Music</a></li>
+                        <li><a href="{{ path('fos_user_registration_register')}}">Subscribe</a></li>
+                        <li><a href="{{ path('dusk_contactus')}}">Contact Us</a></li>
+                        <li><a href="{{ path('fos_user_security_login')}}">Member Login</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h2>Signup to our Newsletter</h2>
+                    <ul>
+                        {{ render(controller('DuskUserBundle:Default:newsletter'))}}
+                    </ul>
+                </li>
+            </ul>
+            <div class="footer-logo"> <a href="{{ path('dusk_user_homepage')}}"><img src="{{ asset('bundles/duskuser/') }}images/footer-logo.jpg" width="134" height="138" alt=""></a><br />
+                <span>
+                    <a href="http://www.facebook.com/wearedusk" target="_blank" class="facebook">&nbsp;</a>
+                    <a href="http://www.twitter.com/wearedusk" target="_blank" class="twitter">&nbsp;</a>
+                    <a href="http://www.instagram.com/wearedusk" target="_blank" class="instagram">&nbsp;</a>
+                </span>
+            </div>
+        </div>
+        <div class="copyright">&copy; Dusk Music {{"now"|date('Y')}} - All Rights Reserved</div>
+        <div class="powered">Proudly designed and developed by <a href="http://www.stylehousecreative.com/" target="_blank">Style House Creative</a></div>
+    </div>
+</footer>

@@ -1,0 +1,96 @@
+{% extends 'DuskUserBundle::layout.html.twig' %}
+{% block css %}
+    {{ parent() }}
+<link href="{{ asset('bundles/duskuser/css/accordion.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+
+
+{% block maincontent %}
+{% block fos_user_content %}
+<div class="banner dashboard-banner">
+    <div class="container white-bg">
+        <div class="content">
+            <div class="title-div"><span>Member Dashboard</span></div>
+            <div class="main-column"> 
+                <!--Left Column-->
+                <div class="column-left">
+                    <h1>MY VENUES</h1>
+                    <!--Nav left-->
+                    {{ render(controller('DuskUserBundle:Default:leftPanel', {'route':app.request.attributes.get('_route')})) }}
+                    <!--Ends-->
+                </div>
+                <!--Ends-->
+                <div class="myrooms-box venue-box">
+                    <div class="myrooms-title">ACTIVE Rooms [{{ active }} of {{ active + inactive }}]
+                        <p class="save-text">Have a Question? <a href="{{ path('dusk_contactus') }}" title="Contact Us">Contact Us</a></p>
+                    </div>
+                    <div class="myrooms-list-title">
+                        <div class="titlelist-left">
+                            <h1>ACTIVE ROOMS</h1>
+                            <span>This Venue is {% if venue.isActive %}ACTIVE{% else %}INACTIVE{% endif %}</span>
+                        </div>            
+                        <div class="titlelist-right">
+                            
+                                <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                    <option value=0>Change Venue [{{ venueCount }}]</option>
+                                        {% for venue in venues %}
+                                            <option value="{{ venue.id }}">{{ venue.name }}</option>
+                                        {% endfor %}
+                                </select>
+                            
+                        </div>
+                    </div>
+                    <p class="msg-text">
+                        {% for flashMessage in app.session.flashbag.get('notice') %}
+                            {% if flashMessage is not null %}<b>{{ flashMessage }}</b>{% endif %}<br />
+                        {% endfor %}
+                    </p>
+                    <div class="myrooms-list">
+                        <ul>
+                            {% for key, room in rooms %}
+                                <li><div class="listleft">
+                                        <h3><a href="{{ path('dusk_room_detail', {'id': room.id}) }}">{{ room.name }}</a></h3>
+                                        <span>STATUS: 
+                                        {% if room.isActive and date(room.expiredAt) > date() %}<b class="active">ACTIVE{% else %}<b class="inactive">INACTIVE{% endif %}</b></span><span>ROOM #{{ key+1 }}</span> </div>
+                                    <div class="listright">
+                                        <a href="{{ path('dusk_change_room', {'id': room.id}) }}">PLAY MUSIC</a>
+                                        <a href="{{ path('dusk_remove_room', {'id': room.id}) }}" onclick="return confirm('Are you sure?')"><img src="{{ asset('bundles/duskuser/images/cencal-btn.png') }}" width="19" height="20" alt=""></a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Right Column-->
+            {{ render(controller('DuskUserBundle:Dashboard:rightInstantPreview')) }}
+            <!--Ends-->
+            {{ render(controller('DuskUserBundle:Album:index')) }}
+            
+            {#% block instantpreview %}
+                {{ parent() }}
+            {% endblock instantpreview %#}
+    </div>
+    {% endblock fos_user_content %}
+{% endblock maincontent %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.ui.core.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.ui.widget.min.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('bundles/duskuser/js/jquery.ui.accordion.min.js') }}"></script>
+    <script>
+        $(function() {
+            $("#accordion").accordion({
+                collapsible: true
+            });
+        });
+        function changeRoom(id) {
+            if(id > 0) {
+                var route = "{{ path('dusk_room_detail', { 'id': "ROOMID" }) }}";
+                window.location = route.replace("ROOMID", id);
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,73 @@
+<header>
+    <div class="container">
+        <div class="logo"><a href="{{ path('dusk_user_homepage')}}"><img src="{{ asset('bundles/duskuser/images/logo.png') }}" alt=""></a></div>
+        <!--Head right-->
+        <div class="head-right">
+            <div class="welcome-text">
+                     {% if app.user %} <span>Welcome <strong>{{ app.user.firstname }}&nbsp;{{ app.user.lastname }}{% else %}<br />{% endif%}
+                             
+                       {% if app.session.get('roomDetail') and app.user.firstname==""  %}  {{ app.session.get('roomDetail') }}  {% endif %}
+                     </strong></span><br/>
+                <p>{% if app.user %}{{ app.user.companyName }}  {% endif%}</p>
+            </div>
+            <!--Navigation-->            
+            {% set route = app.request.attributes.get('_route') %}
+			<div class="navbar navbar-inverse">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span></a>
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<li class="dropdown" {% if route == 'dusk_about' or route == 'dusk_howitworks' or route == 'dusk_duskteam' or route == 'dusk_media' or route == 'dusk_media_detail' or route == 'dusk_testimonials' %} class='dropdown active' {% else %}class='dropdown'{% endif %}><a href="{{ path('dusk_about') }}" title="About" class="dropdown-toggle" data-toggle="dropdown" >About</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ path('dusk_about') }}">About Dusk</a></li>
+                        <li><a href="{{ path('dusk_howitworks') }}">How it Works</a></li>
+                        <li><a href="{{ path('dusk_duskteam') }}">Dusk Team</a></li>
+                        {## <li><a href="{{ path('dusk_media') }}">Dusk Media and Publicityworld-wide</a></li> ##}
+                        <li><a href="{{ path('dusk_testimonials') }}">Testimonials</a></li>
+                      </ul>
+                    </li>
+                    <li {% if route == 'dusk_music' %} class="active" {% endif %}><a href="{{ path('dusk_music') }}" title="Music">Music</a></li>
+                    <li {% if route == 'dusk_pricing' %} class="active" {% endif %}><a href="{{ path('dusk_pricing') }}" title="Pricing">Pricing</a></li>
+                    <li {% if route == 'dusk_contactus' %} class="active" {% endif %}><a href="{{ path('dusk_contactus') }}" title="Contact Us">Contact Us</a></li>
+                    <li {% if route == 'dusk_blog' %} class="active" {% endif %}><a href="{{ path('dusk_blog') }}" title="Blog">Blog</a></li>
+                    {# <li><a href="javascript:void(0)" onclick="document.getElementById('light').style.display = 'block';" title="Member Login">Member Login</a></li>#}
+                    <li {% if route == 'dusk_account' or route == 'dusk_dashboard' or route == 'dusk_overview'  or route == 'dusk_billing_history' 
+                        or route == 'dusk_help_view' or route == 'dusk_help' or route == 'dusk_invite_friend' or route == 'dusk_venue_new' or route == 'dusk_room_new' or route == 'dusk_room_detail' or route == 'dusk_room' or route == 'dusk_venue' or route == 'dusk_mymusic' or route == 'dusk_change_venue'  or route == 'dusk_change_room'%} class="active" {% endif %}>
+                        {% if app.user %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('dusk_dashboard') }}" title="My Dashboard">My Dashboard</a>
+                            {% else %}
+                                <a href="{{ path('dusk_mymusic') }}" title="My Dashboard">My Dashboard</a>
+                            {% endif %}
+                            
+                        {% else %}
+                            <a href="{{ path('fos_user_security_login') }}" title="Member Login">Member Login</a>
+                        {% endif %}
+                    </li>
+                    <li {% if route == 'fos_user_registration_register' %} class="lastli active" {% else %} class="lastli" {% endif %}>
+                        {% if not app.user %}
+                            <a href="{{ path('fos_user_registration_register') }}" title="Subscribe">Subscribe</a>
+                        {% else %}
+                            <a href="{{ path('fos_user_security_logout')}}">Logout</a>
+                        {% endif %}
+                    </li>
+					</ul>
+					</div>
+					</div>
+{% if app.request.get('_route') == 'fos_user_security_login'  %}
+                {% include "DuskUserBundle:Common:loginpopup.html.twig" %}
+                {% block javascripts %}
+                <script type="text/javascript" language="javascript">
+                   $(function() {
+                      $("#light").show(); 
+                   }); 
+                </script>
+                {% endblock %}
+            {% endif %}        
+            <!--Ends--> 
+        </div>
+        <!--Ends--> 
+    </div>
+</header>
