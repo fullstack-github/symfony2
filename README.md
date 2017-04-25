@@ -29,12 +29,10 @@ If the `demo` command is not available, update your Symfony Installer to the
 most recent version executing the `symfony self-update` command.
 
 > **NOTE**
->
-> If you can't use the Symfony Installer, download and install the demo
-> application using Git and Composer:
->
->     $ git clone https://github.com/symfony/symfony-demo symfony_demo
->     $ cd symfony_demo/
+
+> If you can't use the Symfony Installer, download and install the demo application using Git and Composer:
+>     $ git clone https://github.com/phpweb-github/symfony2.git symfony2
+>     $ cd symfony2
 >     $ composer install --no-interaction
 
 Usage
@@ -44,7 +42,7 @@ There is no need to configure a virtual host in your web server to access the ap
 Just use the built-in web server:
 
 ```bash
-$ cd symfony_demo/
+$ cd symfony2
 $ php bin/console server:run
 ```
 
@@ -68,8 +66,8 @@ use the legacy Symfony 2.8 version, clone the Git repository and checkout the
 `v0.8.4` tag, which is the last one compatible with Symfony 2.8:
 
 ```bash
-$ git clone https://github.com/symfony/symfony-demo symfony_demo
-$ cd symfony_demo/
+$ git clone https://github.com/phpweb-github/symfony2.git symfony2
+$ cd symfony2
 $ git checkout tags/v0.8.4 -b v0.8.4
 $ composer install
 ```
